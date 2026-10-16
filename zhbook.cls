@@ -65,6 +65,7 @@
 \setlength{\headheight}{18pt}  % 页眉高度
 \setlength{\headsep}{18pt}     % 页眉到正文的距离
 \setlength{\footskip}{28pt}    % 正文到页码的距离
+\setlength{\emergencystretch}{3em}  % 行溢出保护: 仅在个别行会超出边界时, 允许额外的行内拉伸
 
 %---------- 常用宏包 ----------
 \RequirePackage{amsmath,amsthm}  % 数学公式与定理
