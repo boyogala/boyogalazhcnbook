@@ -1,31 +1,28 @@
 % !TEX program = xelatex
-% 使用 texlive 完整编译:
-% xelatex -> bibtex -> xelatex -> xelatex
-% zhbook 中文书籍 LaTeX 模板
+% zhbook 中文书籍 LaTeX 模板 —— 主文件
+% 编译: xelatex -> bibtex -> xelatex -> xelatex (或直接用 latexmk, 见 README.md)
 
-%--- 正文前后都没有空白页 ---
+%--- 正文前后没有空白页 (openany: 各章从任意页开始) ---
 \documentclass[openany,twoside,zihao=-4]{zhbook}
-% print 用于打印, 封面等生成空白页
 
-%--- 正文前后都有空白页, 正文一章结束可空白页使新的一章是在奇数页开始 ---
+%--- 各章从奇数页开始 (openright: 自动插入空白页, 适合双面打印) ---
 %\documentclass[twoside,openright,zihao=-4]{zhbook}
 
+% 说明: print 选项用于打印, 会在封面等处生成空白页; zihao=-4 表示正文小四号字.
 
-% 书籍信息设置
-\title{中文书籍 \LaTeX{} 模板}  % 标题
+% 书籍信息设置 (用于生成封面)
+\title{中文书籍 \LaTeX{} 模板}  % 主标题
 \subtitle{这是书籍模板的副标题}  % 副标题
 \author{某某某}  % 作者姓名
 \date{202X年X月}  % 日期
 \version{1.0}  % 版本
-\bioinfo{自定义}{其他信息}  % 其他信息
+\bioinfo{自定义}{其他信息}  % 其他信息, 显示为"自定义：其他信息"
 
-\extrainfo{\plogo \\[8pt] 出版社}
-
-% 通用虚拟出版商标志
-\newcommand{\plogo}{\fbox{$\mathcal{PL}$}}
+% 封面底部附加信息 (此处为虚拟出版社标志和名称, 可自行替换)
+\extrainfo{\fbox{$\mathcal{PL}$} \\[8pt] 出版社}
 
 
-%----- 设置英文字体 -----
+%----- 设置英文字体 (未安装的字体请换成对应的开源字体) -----
 %\usepackage{newtxtext}  %New TX font for text
 %\setmainfont{TeX Gyre Termes}  %Times New Roman 的开源复刻版本
 %\setsansfont{TeX Gyre Heros}  %Helvetica 的开源复刻版本
@@ -39,9 +36,9 @@
 %\usepackage{mathptmx}
 
 %----- 添加其他宏包 -----
-%\usepackage[notcite,notref]{showkeys}
-\usepackage{listings}
-\usepackage{subfig}
+%\usepackage[notcite,notref]{showkeys}  % 调试用: 页边显示引用/标签键名
+\usepackage{listings}  % 代码排版
+\usepackage{subfig}    % 子图
 
 %----- 取消链接颜色和方框 -----
 %\hypersetup{hidelinks}
@@ -56,13 +53,13 @@
 \usepackage[numbers,sort&compress]{natbib}
 %\usepackage[numbers,super,square,sort&compress]{natbib}
 %\usepackage[authoryear,sort&compress]{natbib}
-\def\bibfont{\small}  % 修改参考文献字体
-\setlength{\bibsep}{7pt plus 3pt minus 3pt}  % 调整参考文献间距
+\renewcommand{\bibfont}{\small}  % 参考文献正文字号
+\setlength{\bibsep}{7pt plus 3pt minus 3pt}  % 参考文献条目间距
 
 %----- 制作索引 -----
 \usepackage{imakeidx}
 \makeindex
- \indexsetup{level=\chapter*}
+\indexsetup{level=\chapter*}  % 索引标题的级别与章标题一致
 
 %----- 调整列表项的间距 -----
 %\setlength{\itemsep}{3pt}
@@ -70,27 +67,8 @@
 %----- 调整页面避免出现过大空白 -----
 %\raggedbottom
 
-%----- 定义符号描述命令  -----
-\newcommand{\nameditem}[3][]{
-\noindent\hspace{2em}\makebox[0.2\textwidth][l]{#2}{{#3}
-\hfill\makebox[0.2\textwidth][l]{#1}\hspace*{2em}}\par}
-
-%----- 插入 PDF 文件命令 -----
+%----- 插入 PDF 文件命令 (如需要请取消下一行注释) -----
 %\includepdf[pages=-]{pdfname.pdf}
-
-%----- 微分算子 -----
-\newcommand*{\dif}{\mathop{}\!\mathrm{d}}
-
-%----- 自定义命令 -----
-\newcommand{\CC}{\ensuremath{\mathbb{C}}}
-\newcommand{\RR}{\ensuremath{\mathbb{R}}}
-\newcommand{\A}{\mathcal{A}}
-\newcommand{\bA}{\boldsymbol{A}}
-\newcommand{\ii}{\mathrm{i}\mkern1mu}
-\newcommand{\abs}[1]{\lvert#1\rvert}
-\newcommand{\norm}[1]{\left\lVert#1\right\rVert}
-\newcommand{\dx}[1][x]{\mathop{}\!\mathrm{d}#1}
-\newcommand{\red}[1]{\textcolor{red}{#1}}
 
 
 \begin{document}
@@ -181,7 +159,7 @@
 %%%%%%%%%%%%%%%%%%%%%% 索引  %%%%%%%%%%%%%%%%%%%%%%%%
 
 \clearpage
-\renewcommand\indexname{索~~引}
+\renewcommand\indexname{索~~引}  % 索引标题
 \phantomsection
 \addcontentsline{toc}{chapter}{索~~引}
 \printindex
@@ -193,5 +171,3 @@
 
 
 \end{document}
-
-
