@@ -71,6 +71,9 @@
 %----- 插入 PDF 文件命令 (如需要请取消下一行注释) -----
 %\includepdf[pages=-]{pdfname.pdf}
 
+%----- 增量编译 (可选): 只编译修改过的章节可显著提速 (第一次使用前需完整编译一次) -----
+%\includeonly{part/chap03}
+
 
 \begin{document}
 
@@ -118,19 +121,19 @@
 
 
 %----- 第1章 引言 -----
-\input{part/chap01}
+\include{part/chap01}
 
 %----- 第2章 LaTeX 常用环境 -----
-\input{part/chap02}
+\include{part/chap02}
 
 %----- 第3章 微分方程的数值方法 -----
-\input{part/chap03}
+\include{part/chap03}
 
 %----- 第4章 插图环境 -----
-\input{part/chap04}
+\include{part/chap04}
 
 %----- 第5章 表格环境 -----
-\input{part/chap05}
+\include{part/chap05}
 
 
 %%%%%%%%%%%%%%%%%%%%%% 参考文献 %%%%%%%%%%%%%%%%%%%%%
@@ -150,7 +153,7 @@
 %%%%%%%%%%%%%%%%%%%%%% 附录 %%%%%%%%%%%%%%%%%%%%%%%%
 
 % 添加附录, 如不需要可以注释
-\input{part/appendix}
+\include{part/appendix}
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

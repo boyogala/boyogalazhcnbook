@@ -1,11 +1,5 @@
 %%
-%% This is file `zhbook.cls',
-%% 中文书籍 LaTeX 文档类 (基于 ctexbook)
-%%
-%% @author andy123t
-%% @date 2024/01/11
-%% @version v2.4
-%% @address https://github.com/andy123t/zhbook
+%% boyogala@qq.com
 %%
 
 %---------- 定义的新的Class ----------

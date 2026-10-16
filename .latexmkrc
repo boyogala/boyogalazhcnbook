@@ -16,3 +16,6 @@ $bibtex_use = 2;                # 需要时自动运行 bibtex
 # -synctex=1: 生成压缩版 synctex.gz, 供编辑器正反向定位;
 # 不需要时可在命令行覆盖: latexmk -synctex=0
 $xelatex = 'xelatex -synctex=1 %O %S';
+
+# 注: 使用上述命令时, latexmk 会自动为 xelatex 加上 -no-pdf 完成中间各遍,
+# 并在最后调用 xdvipdfmx 生成 main.pdf, 多遍编译更快 (无需任何设置)。
