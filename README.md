@@ -38,7 +38,7 @@
 \documentclass[openany,twoside,zihao=-4]{zhbook}  % 本模板推荐的默认选项
 ```
 
-将本仓库作为起点使用即可：`zhbook.cls`（文类，版式主体）、`zhbooksetting.tex`（全局设置：字体、宏包、参考文献与索引）、`main.tex`（主文件，书籍信息与章节组织）、`part/`（各章节源文件）、`font/`（模板所用字体）、`reference.bib`（参考文献库）与两个 `gbt7714-2025-*.bst` 样式文件放在同一目录，修改封面信息与内容后用 latexmk 编译（见下一节）。
+将本仓库作为起点使用即可：`zhbook.cls`（文类，版式主体）、`zhbooksetting.tex`（全局设置：字体、宏包、参考文献与索引）、`main.tex`（主文件，书籍信息与章节组织）、`chapters/`（各章节源文件）、`font/`（模板所用字体）、`reference.bib`（参考文献库）与两个 `gbt7714-2025-*.bst` 样式文件放在同一目录，修改封面信息与内容后用 latexmk 编译（见下一节）。
 
 ## 类选项
 
@@ -97,9 +97,9 @@ latexmk -c         # 清理中间文件
 
 **提速技巧：**
 
-- 修改某一章时可只编译该章：在导言区加入 `\includeonly{part/chap03}`（换成相应章节文件），
+- 修改某一章时可只编译该章：在导言区加入 `\includeonly{chapters/chap03}`（换成相应章节文件），
   latexmk 只重排该章，显著加快预览；第一次使用前需完整编译一次，定稿前注释掉该行再完整编译一次即可。
-- 正文各章使用 `\include` 组织（`part/chap01.tex` … `part/chap05.tex`、`part/appendix.tex`），
+- 正文各章使用 `\include` 组织（`chapters/chap01.tex` … `chapters/chap05.tex`、`chapters/appendix.tex`），
   上述增量编译即依赖于此。
 - latexmk 会自动用 `xelatex -no-pdf` 完成中间各遍、最后用 `xdvipdfmx` 输出 PDF，多遍编译更快（无需设置）。
 - 不需要编辑器的正反向定位时可加 `-synctex=0`：`latexmk -synctex=0`。
@@ -126,7 +126,7 @@ latexmk -c         # 清理中间文件
 zhbook.cls                    文类文件 (版式主体)
 zhbooksetting.tex             全局设置 (字体、宏包、参考文献与索引)
 main.tex                      主文件 (书籍信息与章节组织)
-part/                         各章节源文件
+chapters/                     各章节源文件
 ├── preface.tex               前言
 ├── chap01.tex … chap05.tex   第 1–5 章
 ├── appendix.tex              附录 A、B
