@@ -24,6 +24,9 @@ latexmk -c         # 清理中间文件
 不使用 latexmk 时，手动编译顺序为：
 `xelatex main.tex → bibtex main → xelatex main.tex → xelatex main.tex`。
 
+**提示：** 索引由 `imakeidx` 在编译时自动调用 `makeindex` 生成（TeX Live 默认设置即可）；
+如果编译环境完全禁用了 shell 执行（如 `-no-shell-escape`），需手动运行 `makeindex main.idx` 生成索引。
+
 ## 参考文献
 
 参考文献样式默认为 `gbt7714-2025-numeric`（顺序编码制），也可选用 `gbt7714-2025-authoryear`（著者-出版年制），

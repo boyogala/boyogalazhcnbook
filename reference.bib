@@ -1,12 +1,15 @@
 % Encoding: UTF-8
 
+% 期刊名写成全称, 缩写写在 shortjournal 字段中 (默认显示全称)
+
 @article{Shen1994,
   title = {Efficient spectral-{Galerkin} method {I}. {Direct} solvers of second- and fourth-order equations using {Legendre} polynomials},
   author = {Shen, Jie},
   year = {1994},
   volume = {15},
   pages = {1489--1505},
-  journal = {SIAM J. Sci. Comput.},
+  journal = {SIAM Journal on Scientific Computing},
+  shortjournal = {SIAM J. Sci. Comput.},
   number = {6}
 }
 
@@ -25,7 +28,8 @@
   year = {2012},
   volume = {49},
   pages = {507--554},
-  journal = {Bull. Amer. Math. Soc.},
+  journal = {Bulletin of the American Mathematical Society},
+  shortjournal = {Bull. Amer. Math. Soc.},
   number = {4}
 }
 
@@ -35,7 +39,8 @@
   year = {2014},
   volume = {56},
   pages = {385--458},
-  journal = {SIAM Rev.},
+  journal = {SIAM Review},
+  shortjournal = {SIAM Rev.},
   number = {3}
 }
 
@@ -46,4 +51,40 @@
   edition = {第四版},
   publisher = {高等教育出版社},
   address = {北京}
+}
+
+% GB/T 7714—2025 新增文献类型示例: 预印本 [PP]
+@preprint{BaoCai2012,
+  title = {Mathematical theory and numerical methods for {Bose}-{Einstein} condensation},
+  author = {Bao, Weizhu and Cai, Yongyong},
+  archiveprefix = {arXiv},
+  eprint = {1212.5341},
+  date = {2012-12-21},
+  urldate = {2026-08-10},
+  url = {https://arxiv.org/abs/1212.5341},
+  langid = {english}
+}
+
+% GB/T 7714—2025 新增文献类型示例: 数据集 [DS]
+@dataset{Zhou2023,
+  title = {天宫二号遥感图像自然景物分类数据集},
+  author = {周壮 and 李盛阳 and 吴薇 and 郭威龙 and 李轩 and 夏桂松 and 赵子飞},
+  version = {1.0},
+  publisher = {国家基础学科公共科学数据中心},
+  year = {2023},
+  date = {2023-09-10},
+  urldate = {2026-08-10},
+  url = {https://www.nbsdc.cn/general/dataLinks/CSTR:16666.11.nbsdc.tfpbwtqf},
+  cstr = {16666.11.nbsdc.tfpbwtqf},
+  langid = {chinese}
+}
+
+% 电子资源示例: 电子公告 [EB]
+% 专有题名用双层花括号保护大写, 避免被句首大写规则改写
+@online{DLMF,
+  title = {{NIST Digital Library of Mathematical Functions}},
+  author = {{National Institute of Standards and Technology}},
+  urldate = {2026-08-10},
+  url = {https://dlmf.nist.gov/},
+  langid = {english}
 }

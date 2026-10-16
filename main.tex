@@ -22,14 +22,10 @@
 \extrainfo{\fbox{$\mathcal{PL}$} \\[8pt] 出版社}
 
 
-%----- 设置英文字体 (未安装的字体请换成对应的开源字体) -----
-%\usepackage{newtxtext}  %New TX font for text
-%\setmainfont{TeX Gyre Termes}  %Times New Roman 的开源复刻版本
-%\setsansfont{TeX Gyre Heros}  %Helvetica 的开源复刻版本
-%\setmonofont{TeX Gyre Cursor}  %Courier New 的开源复刻版本
-\setmainfont{Times New Roman}
-\setsansfont{Arial}
-%\setmonofont{Courier New}
+%----- 设置英文字体 (自动回退: 系统未装 Times New Roman/Arial 时, 使用 TeX Live 自带的复刻字体) -----
+\IfFontExistsTF{Times New Roman}{\setmainfont{Times New Roman}}{\setmainfont{TeX Gyre Termes}}  % 衬线体: TeX Gyre Termes 为 Times 的复刻
+\IfFontExistsTF{Arial}{\setsansfont{Arial}}{\setsansfont{TeX Gyre Heros}}                      % 无衬线体: TeX Gyre Heros 为 Arial 的复刻
+%\setmonofont{Courier New}  % 等宽字体(代码等), 一般无需设置
 
 %----- 设置数学字体 -----
 %\usepackage{newtxmath}
@@ -38,10 +34,10 @@
 %----- 添加其他宏包 -----
 %\usepackage[notcite,notref]{showkeys}  % 调试用: 页边显示引用/标签键名
 \usepackage{listings}  % 代码排版
-\usepackage{subfig}    % 子图
+\usepackage{subcaption}  % 子图排版 (caption 宏包的配套子图宏包)
 
-%----- 取消链接颜色和方框 -----
-%\hypersetup{hidelinks}
+%----- 取消链接颜色和方框 (hyperref 在导言末尾载入, 设置须放入 \AtEndPreamble) -----
+%\AtEndPreamble{\hypersetup{hidelinks}}
 
 %----- 参考文献格式 -----
 %\bibliographystyle{plain} % abbrv, unsrt, siam
@@ -53,6 +49,7 @@
 \usepackage[numbers,sort&compress]{natbib}
 %\usepackage[numbers,super,square,sort&compress]{natbib}
 %\usepackage[authoryear,sort&compress]{natbib}
+%\bibpunct{（}{）}{；}{a}{}{，}  % 著者-出版年制如需中文全角括号, 取消本行注释 (须配合 authoryear 引用格式)
 \renewcommand{\bibfont}{\small}  % 参考文献正文字号
 \setlength{\bibsep}{7pt plus 3pt minus 3pt}  % 参考文献条目间距
 
@@ -60,6 +57,10 @@
 \usepackage{imakeidx}
 \makeindex
 \indexsetup{level=\chapter*}  % 索引标题的级别与章标题一致
+% 提示: 编译环境若禁用了 shell 执行, makeindex 无法自动运行, 索引将为空
+\ifnum\shellescape=0\relax
+    \PackageWarningNoLine{zhbook}{编译时禁用了 shell 执行, 索引将不会自动生成;^^J请允许 shell 执行(TeX Live 默认即允许运行 makeindex), 或手动运行 makeindex main.idx}
+\fi
 
 %----- 调整列表项的间距 -----
 %\setlength{\itemsep}{3pt}

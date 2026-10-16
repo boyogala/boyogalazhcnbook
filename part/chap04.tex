@@ -44,20 +44,36 @@ XeLaTeX 环境下可以插入 EPS、PDF、PNG、JPEG、BMP 格式的图片, 也�
 \end{minipage}
 \end{figure}
 
-使用 subfig 宏包实现多图并排, 如图~\ref{fig:images}.
+使用 subcaption 宏包实现多图并排, 如图~\ref{fig:images}.
 \begin{figure}[htp!]
-\centering
-\subfloat[Subcaption A]{\includegraphics[width=0.3\linewidth]{image1}}
-\hfill
-\subfloat[Subcaption B]{\includegraphics[width=0.3\linewidth]{image1}}
-\hfill
-\subfloat[Subcaption C]{\includegraphics[width=0.3\linewidth]{image1}} \\
-\subfloat[Subcaption D]{\includegraphics[width=0.3\linewidth]{image2}}
-\hfill
-\subfloat[Subcaption E]{\includegraphics[width=0.3\linewidth]{image2}}
-\hfill
-\subfloat[Subcaption F]{\includegraphics[width=0.3\linewidth]{image2}}
-\caption{六个图并排}
-\label{fig:images}
+  \centering
+  \begin{subfigure}[b]{0.3\linewidth}
+    \includegraphics[width=\linewidth]{image1}
+    \caption{Subcaption A}
+  \end{subfigure}\hfill
+  \begin{subfigure}[b]{0.3\linewidth}
+    \includegraphics[width=\linewidth]{image1}
+    \caption{Subcaption B}
+  \end{subfigure}\hfill
+  \begin{subfigure}[b]{0.3\linewidth}
+    \includegraphics[width=\linewidth]{image1}
+    \caption{Subcaption C}
+  \end{subfigure}
+
+  \vspace{1em}
+  \begin{subfigure}[b]{0.3\linewidth}
+    \includegraphics[width=\linewidth]{image2}
+    \caption{Subcaption D}
+  \end{subfigure}\hfill
+  \begin{subfigure}[b]{0.3\linewidth}
+    \includegraphics[width=\linewidth]{image2}
+    \caption{Subcaption E}
+  \end{subfigure}\hfill
+  \begin{subfigure}[b]{0.3\linewidth}
+    \includegraphics[width=\linewidth]{image2}
+    \caption{Subcaption F}
+  \end{subfigure}
+  \caption{六个图并排}
+  \label{fig:images}
 \end{figure}
 

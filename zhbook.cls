@@ -57,7 +57,6 @@
 \RequirePackage{anyfontsize}             % 任意字号
 \RequirePackage{titletoc}                % 目录条目格式
 \RequirePackage{pdfpages}                % 插入外部 PDF
-\RequirePackage[numbered]{bookmark}      % PDF 书签
 
 %---------- 定义文档属性格式 ----------
 \global\let\@title\@empty                         % 书名(封面主标题)
@@ -69,40 +68,71 @@
 \newcommand\extrainfo{\gdef\@extrainfo}           % 封面底部附加信息
 \newcommand\bioinfo[2]{\gdef\@bioinfo{{#1}：#2}}  % 作者的其他信息(键：值)
 
-%---------- 重新定义 cleardoublepage ----------
-% 双面排版时保证新的一页从奇数页开始, 必要时插入空白页
-\renewcommand{\cleardoublepage}{\clearpage
-    \clearpage\if@twoside\ifodd\c@page\else%
-    \thispagestyle{empty}%
-    \hbox{}\newpage\if@twocolumn\hbox{}\newpage\fi\fi\fi%
+%---------- 空白页处理 ----------
+% \cleardoublepage: 结束当前页; 双面排版时保证下一页是奇数页, 必要时插入一张空白页(无页眉页码)
+\renewcommand{\cleardoublepage}{%
+    \clearpage
+    \if@twoside
+        \ifodd\c@page\else
+            \thispagestyle{empty}%
+            \hbox{}\newpage
+            \if@twocolumn\hbox{}\newpage\fi
+        \fi
+    \fi
+}
+
+% 主要分隔处换页: print/openright 模式必要时补空白页, 其余模式仅换页
+\newcommand{\zhbook@nextpage}{%
+    \ifprint
+        \cleardoublepage
+    \else
+        \if@openright
+            \cleardoublepage
+        \else
+            \clearpage
+        \fi
+    \fi
 }
 
 %---------- 设置超链接 ----------
-\RequirePackage{hyperref}
-\hypersetup{
-    colorlinks=true,  % 用颜色标记链接(而非方框)
-    linkcolor=black,  % 内部链接颜色
-    citecolor=blue,   % 文献引用颜色
-    filecolor=blue,   % 文件链接颜色
-    urlcolor=blue     % 网址颜色
+% hyperref 推迟到导言末尾载入: 保证它在 natbib 等宏包之后载入, 避免相互冲突
+\AtEndPreamble{
+    \RequirePackage{hyperref}
+    \RequirePackage[numbered]{bookmark}  % PDF 书签(带编号), 须在 hyperref 之后载入
+    \hypersetup{
+        colorlinks=true,  % 用颜色标记链接(而非方框)
+        linkcolor=black,  % 内部链接颜色
+        citecolor=blue,   % 文献引用颜色
+        filecolor=blue,   % 文件链接颜色
+        urlcolor=blue     % 网址颜色
+    }
+    \ifprint
+        \hypersetup{hidelinks}  % 打印模式: 隐藏链接颜色和方框
+    \fi
+    % 设置 \autoref 引用的中文前缀 (这些命令由 hyperref 定义)
+    \renewcommand{\figureautorefname}{图}      % \autoref 引用图时的前缀
+    \renewcommand{\tableautorefname}{表}       % \autoref 引用表时的前缀
+    \renewcommand{\equationautorefname}{公式}  % \autoref 引用公式时的前缀
 }
-
-\ifprint
-    \hypersetup{hidelinks} % 打印模式: 隐藏链接颜色和方框
-\fi
 
 %---------- 设置正文前页码为小写罗马数字 ----------
 \renewcommand\frontmatter{%
-    \ifprint\cleardoublepage\else\clearpage\fi  % 打印模式在此插入空白页
+    \zhbook@nextpage  % print/openright 模式: 此处补空白页
     \@mainmatterfalse
     \pagenumbering{roman}%
 }
 
 %---------- 设置正文页码为阿拉伯数字 ----------
 \renewcommand\mainmatter{%
-    \ifprint\cleardoublepage\else\clearpage\fi
+    \zhbook@nextpage
     \pagenumbering{arabic}%
     \@mainmattertrue
+}
+
+%---------- 设置后附部分 (不参与章节编号) ----------
+\renewcommand\backmatter{%
+    \zhbook@nextpage
+    \@mainmatterfalse
 }
 
 %---------- 设置图片的路径 ----------
@@ -195,10 +225,10 @@
     %\fancyfoot[RO]{\zihao{5} \thepage}
 }
 
-%---------- 重定义plain样式 (章首页: 无页眉页脚) ----------
+%---------- 重定义plain样式 (章首页: 不含页眉, 底部居中显示页码) ----------
 \fancypagestyle{plain}{%
     \fancyhf{}
-    %\footstyle  % 如需章首页显示页码, 可取消本行注释
+    \footstyle  % 章首页页码
     \renewcommand{\headrulewidth}{0pt}
     \renewcommand{\footrulewidth}{0pt}
 }
@@ -244,10 +274,6 @@
 \setlength{\intextsep}{10pt plus 2pt minus 2pt}     % 文中浮动体与正文的距离
 %\setlength{\abovecaptionskip}{2pt plus 1pt minus 1pt}
 %\setlength{\belowcaptionskip}{3pt plus 1pt minus 2pt}
-
-%---------- 重新设置图表autoref ----------
-\renewcommand{\figureautorefname}{图}  % \autoref 引用图时的前缀
-\renewcommand{\tableautorefname}{表}   % \autoref 引用表时的前缀
 
 %---------- 使用tabularx库并定义新的左右中格式 ----------
 \newcolumntype{L}{X}                                     % 宽度自适应, 左对齐
@@ -313,21 +339,17 @@
 % 已在本文件"设置图表格式"一节统一设置 \numberwithin{equation}{chapter}
 %\renewcommand{\theequation}{\arabic{chapter}.\arabic{equation}}
 
-% 重新设置公式autoref
-\renewcommand{\equationautorefname}{公式}  % \autoref 引用公式时的前缀
-
 %---------- 定义列表项的样式 ----------
 \RequirePackage{enumitem}  % 列表间距控制
 \setlist{nolistsep}        % 列表项之间不留额外间距
 
 %---------- 定义新的标题页面 (封面) ----------
-\renewcommand{\maketitle}[1][15em]{  % 参数 #1 为预留接口, 暂未使用
+\renewcommand{\maketitle}{
     \clearpage
     \phantomsection
     \pdfbookmark[0]{封~~面}{cover}  % 在 PDF 书签中添加"封面"
     \begin{titlepage}
         \centering
-        \scshape  % 小体大写字母
 
         \vspace*{3.0\baselineskip}
 
@@ -367,15 +389,7 @@
 
         \vspace*{0.1\baselineskip}
     \end{titlepage}
-    \ifprint
-        \cleardoublepage  % 打印模式: 封面后加空白页
-        \hypersetup{hidelinks} % 隐藏链接颜色和方框
-    \else
-        \clearpage
-    \fi
-    \if@openright
-        \cleardoublepage  % openright 模式: 保证正文从奇数页开始
-    \fi
+    \zhbook@nextpage  % print/openright 模式: 封面后补空白页
 }
 
 %---------- 定义中英文关键词 ----------
@@ -421,10 +435,7 @@
     \chapter*{#1}
     \chaptermark{#1}
 }{
-    \clearpage
-    \if@openright
-        \cleardoublepage
-    \fi
+    \zhbook@nextpage
 }
 
 %---------- 定义新的目录页面 ----------
@@ -499,10 +510,7 @@
     \chapter*{主要符号表}
     \chaptermark{主要符号表}
 }{
-    \clearpage
-    \if@openright
-        \cleardoublepage
-    \fi
+    \zhbook@nextpage
 }
 
 %---------- 重新定义附录命令 ----------
