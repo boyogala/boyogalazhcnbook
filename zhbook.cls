@@ -16,7 +16,8 @@
 \DeclareOption{twoside}{\PassOptionsToClass{twoside}{ctexbook}}      % 双面排版
 
 %--- 自定义"键=值"类选项 (未匹配的选项原样透传给 ctexbook) ---
-%    mathfont=lmodern/xits/termes/stix2/pagella  数学字体 (默认: 不改变 LaTeX 默认数学字体)
+%    mathfont=lmodern/xits/termes/stix2/pagella  备用数学字体 (取自 TeX Live 的字体);
+%        默认数学字体由 zhbooksetting.tex 配置 (项目自带字体), 会覆盖此选项
 %    bindingoffset=1cm                           装订线宽度 (默认: 0pt, 不预留)
 \def\zhbook@mathfont{}          % 空 = 不改变默认数学字体
 \def\zhbook@bindingoffset{0pt}  % 装订线宽度
@@ -47,7 +48,9 @@
 \PassOptionsToPackage{no-math}{fontspec}
 
 %---------- 载入Class ----------
-\LoadClass[UTF8,a4paper]{ctexbook}
+% fontset=fandol: 固定使用 Fandol 字体集, 使各系统上的中文标点行为一致;
+% 字体文件的实际路径在 zhbooksetting.tex 中指向本仓库自带的 font/fandolfonts/
+\LoadClass[UTF8,a4paper,fontset=fandol]{ctexbook}
 \@ifclasslater{ctexbook}{2017/01/01}{}{%
     \ClassError{zhbook}{ctex >= 2017/01/01 is required ...}{}%
 }
@@ -77,7 +80,7 @@
     \fi
 }}}}}
 \ifx\zhbook@mathfont\@empty
-    %--- 默认: LaTeX 传统数学字体 (Computer Modern 风格) ---
+    %--- 默认: 仅载入基础符号宏包; 正式数学字体在 zhbooksetting.tex 中用 unicode-math 配置 (会覆盖下面两个宏包) ---
     \RequirePackage{amssymb}   % AMS 数学符号
     \RequirePackage{mathrsfs}  % 花体数学符号 \mathscr
 \else
@@ -394,7 +397,8 @@
 \newtheorem{axiom}{公理}[chapter]
 \newtheorem{property}{性质}[chapter]
 \newtheorem{conjecture}{猜想}[chapter]
-%\renewcommand{\qedsymbol}{$\blacksquare$}  % 证毕符号(可自行更换)
+% 证毕符号默认 □; zhbooksetting.tex 中已改为数学字体的 \mdlgwhtsquare
+% (如要换成实心 ∎, 建议统一在 zhbooksetting.tex 中改为 \mdlgblksquare)
 \renewcommand{\proofname}{证明}  % 证明环境标题
 \renewenvironment{proof}[1][\proofname]{\par  % 重定义证明环境: 标题加粗, 结尾加证毕符号
     \pushQED{\qed}%

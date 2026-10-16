@@ -9,6 +9,7 @@
 - [特性](#特性)
 - [快速开始](#快速开始)
 - [类选项](#类选项)
+- [字体](#字体)
 - [编译方法](#编译方法)
 - [参考文献](#参考文献)
 - [排版细节](#排版细节)
@@ -24,9 +25,10 @@
 - 常用排版：算法（algorithm + algorithmic）、代码（listings，中文注释可正常排版）、子图与并排图（subcaption、minipage）、三线表（booktabs）、索引（imakeidx）；
 - 参考文献符合国家标准 GB/T 7714—2025，顺序编码制与著者-出版年制均可（BibTeX，样式文件随附）；
 - 中文排版细节：段首缩进 2 字（含列表项与引文内段落）、段间距与行距、章首页页码、页眉等；
-- 可选类选项：`mathfont` 数学字体（lmodern/xits/termes/stix2/pagella）、`bindingoffset` 装订线、`print` 打印模式、`openright` 奇数页起章等；
+- 设置分离：版式集中于 `zhbook.cls`，字体、宏包、参考文献等全局设置集中于 `zhbooksetting.tex`，便于按需调整；
+- 可选类选项：`bindingoffset` 装订线、`print` 打印模式、`openright` 奇数页起章、`mathfont` 备用数学字体等；
 - 基于 XeLaTeX + latexmk 一键编译；各章用 `\include` 组织，支持 `\includeonly` 只编译修改的章节；
-- 英文字体自动回退：系统未装 Times New Roman / Arial 时自动使用 TeX Live 自带的 TeX Gyre 复刻字体。
+- 自带字体方案：中文、西文、数学与代码字体全部取自仓库 `font/` 目录中的字体文件，换电脑编译无需安装任何字体（详见[字体](#字体)一节）。
 
 ## 快速开始
 
@@ -36,7 +38,7 @@
 \documentclass[openany,twoside,zihao=-4]{zhbook}  % 本模板推荐的默认选项
 ```
 
-将本仓库作为起点使用即可：`zhbook.cls`（文类，全部版式设置都在其中）、`main.tex`（主文件，书籍信息与章节组织）、`part/`（各章节源文件）、`reference.bib`（参考文献库）与两个 `gbt7714-2025-*.bst` 样式文件放在同一目录，修改封面信息与内容后用 latexmk 编译（见下一节）。
+将本仓库作为起点使用即可：`zhbook.cls`（文类，版式主体）、`zhbooksetting.tex`（全局设置：字体、宏包、参考文献与索引）、`main.tex`（主文件，书籍信息与章节组织）、`part/`（各章节源文件）、`font/`（模板所用字体）、`reference.bib`（参考文献库）与两个 `gbt7714-2025-*.bst` 样式文件放在同一目录，修改封面信息与内容后用 latexmk 编译（见下一节）。
 
 ## 类选项
 
@@ -46,13 +48,33 @@
 | `openany` / `openright` | — | 各章从任意页（默认）/ 奇数页开始 |
 | `twoside` / `oneside` | — | 双面（默认）/ 单面排版 |
 | `zihao` | `-4`、`5` 等 | 正文字号，默认小四号（`zihao=-4`） |
-| `fontset` | `windows`、`mac`、`fandol` 等 | 中文字体集（默认自动检测当前系统） |
-| `mathfont` | `lmodern`、`xits`、`termes`、`stix2`、`pagella` | 数学字体（基于 unicode-math）；不设置则沿用 LaTeX 默认数学字体 |
+| `fontset` | `windows`、`mac`、`fandol` 等 | 中文字体集（模板默认 `fandol`；实际字体统一由 `zhbooksetting.tex` 指定） |
+| `mathfont` | `lmodern`、`xits`、`termes`、`stix2`、`pagella` | 备用数学字体（取自 TeX Live）；默认数学字体由 `zhbooksetting.tex` 配置，会覆盖此选项 |
 | `bindingoffset` | 长度，如 `1cm` | 装订线：双面打印时在页面内侧额外预留的宽度 |
 
-- 英文字体为 Times 风格时，`mathfont=xits` 或 `mathfont=termes` 与正文风格最协调（XITS 自带粗体数学字形，其余字体粗体数学自动回退为常规字形）；
+- `mathfont` 为备用选项（使用 TeX Live 自带字体）；默认数学字体由 `zhbooksetting.tex` 配置，会覆盖此选项；
 - 装订线建议配合 `openright` 或 `print` 模式使用，此时前置页从奇数页开始，装订边与物理页一致；
 - ctexbook 文类的其他选项（如 `fontset`、`heading` 等）均可直接传给本模板。
+
+## 字体
+
+模板的全部字体都直接从仓库 `font/` 目录读取字体文件（不依赖系统安装、不联网），任何电脑上的排版效果一致：
+
+| 用途 | 字体 | 位置 | 许可 |
+| --- | --- | --- | --- |
+| 中文正文 | Fandol 宋体（粗体、斜体配套） | `font/fandolfonts/` | GPL v3 |
+| 中文标题 | Fandol 黑体 | `font/fandolfonts/` | GPL v3 |
+| 中文斜体 / 引用 | Fandol 楷体 | `font/fandolfonts/` | GPL v3 |
+| 中文等宽 | Fandol 仿宋 | `font/fandolfonts/` | GPL v3 |
+| 西文正文 | STIX Two Text | `font/enfonts/` | SIL OFL 1.1 |
+| 西文无衬线 | 思源黑体（拉丁部分为 Source Sans） | `font/englishfonts/` | SIL OFL 1.1 |
+| 数学 | STIX Two Math（粗体数学用同源的 XITS Math Bold） | `font/math/` | SIL OFL 1.1 |
+| 代码 / 等宽 | JetBrains Mono | `font/englishfonts/` | SIL OFL 1.1 |
+
+- 更换或调整字体：编辑 `zhbooksetting.tex` 第一节「字体设置」，把字体文件放入 `font/` 对应子目录即可；
+- STIX Two 是当前主流的现代数学字体（Times 风格的学术修订版），但暂无粗体数学字形，模板用同源的 XITS Math Bold 补足，
+  向量、矩阵等的 `\boldsymbol` 可正常加粗；不需要粗体数学时，删去 `zhbooksetting.tex` 中的 `BoldFont = XITSMath-Bold.otf` 一行即可；
+- 上表字体均为自由字体（GPL v3 / SIL OFL 1.1），可随模板公开分发；如替换为其他字体（尤其商业字体），请自行确认授权。
 
 ## 编译方法
 
@@ -101,8 +123,9 @@ latexmk -c         # 清理中间文件
 ## 目录结构
 
 ```text
-zhbook.cls                    文类文件 (全部版式设置)
-main.tex                      主文件 (书籍信息、导言区、章节组织)
+zhbook.cls                    文类文件 (版式主体)
+zhbooksetting.tex             全局设置 (字体、宏包、参考文献与索引)
+main.tex                      主文件 (书籍信息与章节组织)
 part/                         各章节源文件
 ├── preface.tex               前言
 ├── chap01.tex … chap05.tex   第 1–5 章
@@ -112,6 +135,7 @@ part/                         各章节源文件
 reference.bib                 参考文献库
 gbt7714-2025-numeric.bst      GB/T 7714—2025 顺序编码制样式
 gbt7714-2025-authoryear.bst   GB/T 7714—2025 著者-出版年制样式
+font/                         模板所用字体 (Fandol、STIX Two 等)
 figures/                      示例插图 (EPS)
 docs/images/                  README 预览图
 makefiles.sh / makefiles.bat  编译/清理脚本
@@ -150,8 +174,9 @@ makefiles.sh / makefiles.bat  编译/清理脚本
 ## 常见问题
 
 **编译时报找不到字体？**
-模板默认自动检测系统字体；Linux/macOS 未装 Times New Roman/Arial 时会自动回退为 TeX Live
-自带的 TeX Gyre 复刻字体，通常无需处理。Windows 用户可显式指定 `fontset=windows`。
+模板的全部字体都在 `font/` 目录中，无需在系统里安装字体；请确认 `font/` 目录完整、并与
+`main.tex` 位于同一目录（单独分发/下载时容易遗漏）。若自行改过 `zhbooksetting.tex` 中的
+字体文件名，请对照 `font/` 下的实际文件核对。
 
 **索引是空的？**
 索引由 `imakeidx` 在编译时自动调用 `makeindex`（需要允许 shell 执行，TeX Live 默认允许）；
@@ -164,3 +189,6 @@ makefiles.sh / makefiles.bat  编译/清理脚本
 ## 许可协议
 
 本项目基于 MIT 许可协议发布，详情见 [LICENSE](LICENSE)。
+
+模板所用字体均为自由字体（Fandol：GPL v3；STIX Two、思源黑体、JetBrains Mono：SIL OFL 1.1），
+许可文本见 `font/` 目录中相应文件。

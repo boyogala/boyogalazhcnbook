@@ -10,7 +10,8 @@
 
 % 说明: zihao=-4 表示正文小四号字; 常用类选项还有:
 %   print               打印模式: 封面等处生成空白页, 并隐藏链接颜色
-%   mathfont=xits       数学字体: 可选 lmodern/xits/termes/stix2/pagella, 默认不改变
+%   mathfont=xits       备用数学字体: lmodern/xits/termes/stix2/pagella (取自 TeX Live);
+%                       默认数学字体已由 zhbooksetting.tex 配置 (项目自带字体), 会覆盖此选项
 %   bindingoffset=1cm   装订线宽度: 双面打印/胶装时在页面内侧额外留白
 
 % 书籍信息设置 (用于生成封面)
@@ -25,58 +26,10 @@
 \extrainfo{\fbox{$\mathcal{PL}$} \\[8pt] 出版社}
 
 
-%----- 设置英文字体 (自动回退: 系统未装 Times New Roman/Arial 时, 使用 TeX Live 自带的复刻字体) -----
-\IfFontExistsTF{Times New Roman}{\setmainfont{Times New Roman}}{\setmainfont{TeX Gyre Termes}}  % 衬线体: TeX Gyre Termes 为 Times 的复刻
-\IfFontExistsTF{Arial}{\setsansfont{Arial}}{\setsansfont{TeX Gyre Heros}}                      % 无衬线体: TeX Gyre Heros 为 Arial 的复刻
-%\setmonofont{Courier New}  % 等宽字体(代码等), 一般无需设置
-
-%----- 设置数学字体 -----
-% 数学字体建议用类选项设置, 例如: \documentclass[...,mathfont=xits]{zhbook}
-% 可选 lmodern (Latin Modern) / xits (与 Times 风格一致, 含粗体) / termes (TeX Gyre Termes) /
-%      stix2 (STIX Two) / pagella (TeX Gyre Pagella); 不设置时沿用 LaTeX 默认数学字体.
-
-%----- 添加其他宏包 -----
-%\usepackage[notcite,notref]{showkeys}  % 调试用: 页边显示引用/标签键名
-% 代码排版 (listings) 已由文类载入并配置样式 (行号/边框/配色), 可直接使用 lstlisting 环境
-\usepackage{subcaption}  % 子图排版 (caption 宏包的配套子图宏包)
-
-%----- 取消链接颜色和方框 (hyperref 在导言末尾载入, 设置须放入 \AtEndPreamble) -----
-%\AtEndPreamble{\hypersetup{hidelinks}}
-
-%----- 参考文献格式 -----
-%\bibliographystyle{plain} % abbrv, unsrt, siam
-\bibliographystyle{gbt7714-2025-numeric}
-%\bibliographystyle{gbt7714-2025-authoryear}
-%\bibliographystyle{thuthesis-numeric} % 旧样式 GB/T 7714-2015 (兼容保留)
-
-%----- 参考文献引用格式 -----
-\usepackage[numbers,sort&compress]{natbib}
-%\usepackage[numbers,super,square,sort&compress]{natbib}
-%\usepackage[authoryear,sort&compress]{natbib}
-%\bibpunct{（}{）}{；}{a}{}{，}  % 著者-出版年制如需中文全角括号, 取消本行注释 (须配合 authoryear 引用格式)
-\renewcommand{\bibfont}{\small}  % 参考文献正文字号
-\setlength{\bibsep}{7pt plus 3pt minus 3pt}  % 参考文献条目间距
-
-%----- 制作索引 -----
-\usepackage{imakeidx}
-\makeindex
-\indexsetup{level=\chapter*}  % 索引标题的级别与章标题一致
-% 提示: 编译环境若禁用了 shell 执行, makeindex 无法自动运行, 索引将为空
-\ifnum\shellescape=0\relax
-    \PackageWarningNoLine{zhbook}{编译时禁用了 shell 执行, 索引将不会自动生成;^^J请允许 shell 执行(TeX Live 默认即允许运行 makeindex), 或手动运行 makeindex main.idx}
-\fi
-
-%----- 调整列表项的间距 -----
-%\setlength{\itemsep}{3pt}
-
-%----- 调整页面避免出现过大空白 -----
-%\raggedbottom
-
-%----- 插入 PDF 文件命令 (如需要请取消下一行注释) -----
-%\includepdf[pages=-]{pdfname.pdf}
-
-%----- 增量编译 (可选): 只编译修改过的章节可显著提速 (第一次使用前需完整编译一次) -----
-%\includeonly{part/chap03}
+%----- 全局设置: 字体 / 宏包 / 参考文献 / 索引等 (详见 zhbooksetting.tex) -----
+% 所有字体均取自本仓库 font/ 目录, 在任何电脑上编译都无需安装字体;
+% 调整字体、宏包等设置时, 直接修改 zhbooksetting.tex 即可.
+\input{zhbooksetting.tex}
 
 
 \begin{document}
