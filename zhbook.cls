@@ -468,7 +468,7 @@
         \fi
         \ifx\@coverimage\undefined\else
             \vspace*{0.9\baselineskip}
-            {\includegraphics[width=0.28\textwidth]{\@coverimage}\par}
+            {\includegraphics[width=0.34\textwidth]{\@coverimage}\par}
         \fi
 
         \vspace*{\fill}
