@@ -40,6 +40,23 @@
 
 将本仓库作为起点使用即可：`zhbook.cls`（文类，版式主体）、`zhbooksetting.tex`（全局设置：字体、宏包、参考文献与索引）、`main.tex`（主文件，书籍信息与章节组织）、`chapters/`（各章节源文件）、`font/`（模板所用字体）、`reference.bib`（参考文献库）与两个 `gbt7714-2025-*.bst` 样式文件放在同一目录，修改封面信息与内容后用 latexmk 编译（见下一节）。
 
+## 封面信息
+
+书名、副标题、作者等封面内容都在 `main.tex` 顶部设置：
+
+| 命令 | 说明 |
+| --- | --- |
+| `\title{...}` | 书名（封面主标题，最大字号） |
+| `\subtitle{...}` | 副标题（可选，不需要可删除） |
+| `\author{...}` | 作者 |
+| `\coverimage{...}` | 封面图片（可选，如 `figures/boyogala.png`） |
+| `\motto{...}` | 封面座右铭（可选，可用 `\\` 分行） |
+| `\date{...}` / `\version{...}` | 日期与版本（显示在封面下方） |
+| `\bioinfo{键}{值}` | 作者的其他信息（可选，显示为「键：值」） |
+| `\extrainfo{...}` | 封面底部附加信息，如出版社标志与名称（可选） |
+
+封面采用现代三栏式布局：上层为书名与副标题，中层为作者与封面图片，下层为座右铭；同时设置 `\motto` 与 `\date` 时，封面优先显示座右铭（日期与版本不再出现）。点缀色与封面字体可分别在 `zhbook.cls`（`zhbookgreen`）与 `zhbooksetting.tex`（`zhcover` 字族）中修改。
+
 ## 类选项
 
 | 选项 | 取值 | 说明 |
@@ -68,6 +85,7 @@
 | 中文等宽 | Fandol 仿宋 | `font/` | GPL v3 |
 | 西文正文 | STIX Two Text | `font/` | SIL OFL 1.1 |
 | 西文无衬线 | 思源黑体（拉丁部分为 Source Sans） | `font/` | SIL OFL 1.1 |
+| 封面标题 | 思源黑体（加粗，`zhcover` 字族） | `font/` | SIL OFL 1.1 |
 | 数学 | STIX Two Math（粗体数学用同源的 XITS Math Bold） | `font/` | SIL OFL 1.1 |
 | 代码 / 等宽 | JetBrains Mono | `font/` | SIL OFL 1.1 |
 

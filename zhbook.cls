@@ -118,6 +118,9 @@
 \newcommand\version{\gdef\@version}               % 版本
 \newcommand\extrainfo{\gdef\@extrainfo}           % 封面底部附加信息
 \newcommand\bioinfo[2]{\gdef\@bioinfo{{#1}：#2}}  % 作者的其他信息(键：值)
+\newcommand\coverimage{\gdef\@coverimage}         % 封面图片 (可选)
+\newcommand\motto{\gdef\@motto}                   % 封面座右铭 (可选, 支持 \\ 换行)
+\providecommand\coverfont{\sffamily}              % 封面字体 (默认无衬线; 可在 zhbooksetting.tex 中改)
 
 %---------- 空白页处理 ----------
 % \cleardoublepage: 结束当前页; 双面排版时保证下一页是奇数页, 必要时插入一张空白页(无页眉页码)
@@ -433,48 +436,65 @@
 \setlist[itemize,enumerate,description]{listparindent=2\ccwd}
 
 %---------- 定义新的标题页面 (封面) ----------
+% 现代三栏式布局: 上层=书名/副标题, 中层=作者/封面图片, 下层=座右铭(设置后优先于日期版本), 页脚=附加信息
+\definecolor{zhbookgreen}{HTML}{0B8C2F}  % 封面点缀色: 品牌绿 (可自行修改)
 \renewcommand{\maketitle}{
     \clearpage
     \phantomsection
     \pdfbookmark[0]{封~~面}{cover}  % 在 PDF 书签中添加"封面"
     \begin{titlepage}
         \centering
+        \setlength{\parskip}{0pt}    % 封面内清零段间距与首行缩进 (模板正文有, 封面不需要)
+        \setlength{\parindent}{0pt}
 
-        \vspace*{3.0\baselineskip}
+        \vspace*{0.10\textheight}  % 顶部留白
 
-        \rule{\textwidth}{1.6pt}\vspace*{-\baselineskip}\vspace*{2pt}  % 标题框上粗线
-        \rule{\textwidth}{0.5pt}   % 标题框上细线
-
-        \vspace*{0.75\baselineskip} % 标题上方留白
-
-        \parbox[t]{15cm}{\centering \zihao{1}\sffamily\heiti \@title  % 书名: 1号黑体
-        \ifx\@subtitle\undefined{}
-        \else
-        \par
-        \vspace*{0.25\baselineskip}
-        \zihao{2}\sffamily\heiti \@subtitle  % 副标题: 2号黑体
+        %===== 上层: 书名 / 副标题 =====
+        {\sffamily\coverfont\bfseries\fontsize{32pt}{42pt}\selectfont \@title \par}
+        \ifx\@subtitle\undefined\else
+            \vspace*{0.9\baselineskip}
+            {\sffamily\coverfont\fontsize{16pt}{21pt}\selectfont\color{zhbookgreen}%
+             \@subtitle \par}
         \fi
-        }
-
-        \vspace*{0.75\baselineskip} % 标题下方留白
-
-        \rule{\textwidth}{0.5pt}\vspace*{-\baselineskip}\vspace{3.2pt} % 标题框下细线
-        \rule{\textwidth}{1.6pt}   % 标题框下粗线
-
-        \vspace*{1\baselineskip}  % 标题区域后留白
-
-        {\large\kaishu \renewcommand{\arraystretch}{1.2}  % 作者等信息: 楷体, 行高 1.2
-        \begin{tabular}{c}
-        \ifx\@author\empty{}\else 作者：\@author \\ \fi
-        %\ifx\@institute\undefined{}\else 机构：\@institute \\ \fi
-        \ifx\@date\empty{}\else 日期：\@date \\ \fi
-        \ifx\@version\undefined{}\else 版本：\@version \\ \fi
-        \ifx\@bioinfo\undefined{}\else \@bioinfo \\ \fi
-        \end{tabular}}
 
         \vspace*{\fill}
 
-        {\large \ifx\@extrainfo\undefined{}\else \@extrainfo \fi} % 封面底部附加信息
+        %===== 中层: 作者 / 封面图片 (图片在作者之下) =====
+        {\sffamily\coverfont\fontsize{17pt}{23pt}\selectfont \@author \par}
+        \ifx\@bioinfo\undefined\else
+            \vspace*{0.4\baselineskip}
+            {\kaishu\small\color{black!55} \@bioinfo \par}
+        \fi
+        \ifx\@coverimage\undefined\else
+            \vspace*{0.9\baselineskip}
+            {\includegraphics[width=0.28\textwidth]{\@coverimage}\par}
+        \fi
+
+        \vspace*{\fill}
+
+        %===== 下层: 座右铭 (一行; 设置后日期与版本不再显示) =====
+        \ifx\@motto\undefined
+            \ifx\@date\@empty
+                \ifx\@version\undefined\else
+                    {\color{zhbookgreen}\rule{1.2cm}{1.6pt}\par}
+                    \vspace*{1\baselineskip}
+                    {\sffamily\coverfont\small\color{black!60} 版本 \@version \par}
+                \fi
+            \else
+                {\color{zhbookgreen}\rule{1.2cm}{1.6pt}\par}
+                \vspace*{1\baselineskip}
+                {\sffamily\coverfont\small\color{black!60} \@date
+                 \ifx\@version\undefined\else ~·~版本 \@version\fi \par}
+            \fi
+        \else
+            {\color{zhbookgreen}\rule{1.2cm}{1.6pt}\par}
+            \vspace*{1\baselineskip}
+            {\kaishu\fontsize{13pt}{20pt}\selectfont \color{black!70} \@motto \par}
+        \fi
+
+        \vspace*{1.4cm}
+
+        {\normalsize \ifx\@extrainfo\undefined{}\else \@extrainfo \fi} % 封面底部附加信息
 
         \vspace*{0.1\baselineskip}
     \end{titlepage}

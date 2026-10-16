@@ -26,6 +26,10 @@
 \setCJKfamilyfont{zhfs}{FandolFang-Regular.otf}[Path = font/]
 \setCJKfamilyfont{zhkai}{FandolKai-Regular.otf}[Path = font/]
 
+%----- 封面字体: 思源黑体 (展示用, 比 Fandol 黑体更现代; 供文类封面使用) -----
+\setCJKfamilyfont{zhcover}{SourceHanSansCN-Regular.otf}[Path = font/, BoldFont = SourceHanSansCN-Bold.otf]
+\renewcommand{\coverfont}{\CJKfamily{zhcover}}   % 封面标题/副标题/作者均使用该字体
+
 %----- 西文字体 -----
 % 衬线 (正文): STIX Two Text —— Times 字体现代修订版, 学术出版风格, 与数学字体同族
 \setmainfont{STIXTwoText-Regular.ttf}[
