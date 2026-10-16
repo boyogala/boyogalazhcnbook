@@ -49,7 +49,7 @@
 
 %---------- 载入Class ----------
 % fontset=fandol: 固定使用 Fandol 字体集, 使各系统上的中文标点行为一致;
-% 字体文件的实际路径在 zhbooksetting.tex 中指向本仓库自带的 font/fandolfonts/
+% 字体文件的实际路径在 zhbooksetting.tex 中指向本仓库自带的 font/ 目录
 \LoadClass[UTF8,a4paper,fontset=fandol]{ctexbook}
 \@ifclasslater{ctexbook}{2017/01/01}{}{%
     \ClassError{zhbook}{ctex >= 2017/01/01 is required ...}{}%

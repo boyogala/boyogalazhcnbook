@@ -62,16 +62,16 @@
 
 | 用途 | 字体 | 位置 | 许可 |
 | --- | --- | --- | --- |
-| 中文正文 | Fandol 宋体（粗体、斜体配套） | `font/fandolfonts/` | GPL v3 |
-| 中文标题 | Fandol 黑体 | `font/fandolfonts/` | GPL v3 |
-| 中文斜体 / 引用 | Fandol 楷体 | `font/fandolfonts/` | GPL v3 |
-| 中文等宽 | Fandol 仿宋 | `font/fandolfonts/` | GPL v3 |
-| 西文正文 | STIX Two Text | `font/enfonts/` | SIL OFL 1.1 |
-| 西文无衬线 | 思源黑体（拉丁部分为 Source Sans） | `font/englishfonts/` | SIL OFL 1.1 |
-| 数学 | STIX Two Math（粗体数学用同源的 XITS Math Bold） | `font/math/` | SIL OFL 1.1 |
-| 代码 / 等宽 | JetBrains Mono | `font/englishfonts/` | SIL OFL 1.1 |
+| 中文正文 | Fandol 宋体（粗体、斜体配套） | `font/` | GPL v3 |
+| 中文标题 | Fandol 黑体 | `font/` | GPL v3 |
+| 中文斜体 / 引用 | Fandol 楷体 | `font/` | GPL v3 |
+| 中文等宽 | Fandol 仿宋 | `font/` | GPL v3 |
+| 西文正文 | STIX Two Text | `font/` | SIL OFL 1.1 |
+| 西文无衬线 | 思源黑体（拉丁部分为 Source Sans） | `font/` | SIL OFL 1.1 |
+| 数学 | STIX Two Math（粗体数学用同源的 XITS Math Bold） | `font/` | SIL OFL 1.1 |
+| 代码 / 等宽 | JetBrains Mono | `font/` | SIL OFL 1.1 |
 
-- 更换或调整字体：编辑 `zhbooksetting.tex` 第一节「字体设置」，把字体文件放入 `font/` 对应子目录即可；
+- 更换或调整字体：编辑 `zhbooksetting.tex` 第一节「字体设置」，把字体文件放入 `font/` 目录即可；
 - STIX Two 是当前主流的现代数学字体（Times 风格的学术修订版），但暂无粗体数学字形，模板用同源的 XITS Math Bold 补足，
   向量、矩阵等的 `\boldsymbol` 可正常加粗；不需要粗体数学时，删去 `zhbooksetting.tex` 中的 `BoldFont = XITSMath-Bold.otf` 一行即可；
 - 上表字体均为自由字体（GPL v3 / SIL OFL 1.1），可随模板公开分发；如替换为其他字体（尤其商业字体），请自行确认授权。

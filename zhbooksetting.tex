@@ -8,52 +8,51 @@
 %  一、字体设置
 % ===============================================================
 
-%----- 中文字体: Fandol 字族 (取自 font/fandolfonts/) -----
+%----- 中文字体: Fandol 字族 (取自 font/) -----
 % 与 ctex 官方 fandol 字体集使用同一套字体, 此处改为从本地目录读取文件;
 % 字体族名与官方保持一致 (zhsong/zhhei/zhfs/zhkai), 中文标点处理不变.
 \setCJKmainfont{FandolSong-Regular.otf}[        % 正文: 宋体
-    Path = font/fandolfonts/,
+    Path = font/,
     BoldFont = FandolSong-Bold.otf,             % 粗体: 宋体粗
     ItalicFont = FandolKai-Regular.otf]         % 斜体: 楷体
 \setCJKsansfont{FandolHei-Regular.otf}[         % 无衬线: 黑体
-    Path = font/fandolfonts/,
+    Path = font/,
     BoldFont = FandolHei-Bold.otf]
 \setCJKmonofont{FandolFang-Regular.otf}[        % 等宽: 仿宋
-    Path = font/fandolfonts/]
+    Path = font/]
 % 字体族声明: 使 \songti \heiti \kaishu \fangsong 均使用本地字体文件
-\setCJKfamilyfont{zhsong}{FandolSong-Regular.otf}[Path = font/fandolfonts/, BoldFont = FandolSong-Bold.otf]
-\setCJKfamilyfont{zhhei}{FandolHei-Regular.otf}[Path = font/fandolfonts/, BoldFont = FandolHei-Bold.otf]
-\setCJKfamilyfont{zhfs}{FandolFang-Regular.otf}[Path = font/fandolfonts/]
-\setCJKfamilyfont{zhkai}{FandolKai-Regular.otf}[Path = font/fandolfonts/]
+\setCJKfamilyfont{zhsong}{FandolSong-Regular.otf}[Path = font/, BoldFont = FandolSong-Bold.otf]
+\setCJKfamilyfont{zhhei}{FandolHei-Regular.otf}[Path = font/, BoldFont = FandolHei-Bold.otf]
+\setCJKfamilyfont{zhfs}{FandolFang-Regular.otf}[Path = font/]
+\setCJKfamilyfont{zhkai}{FandolKai-Regular.otf}[Path = font/]
 
 %----- 西文字体 -----
 % 衬线 (正文): STIX Two Text —— Times 字体现代修订版, 学术出版风格, 与数学字体同族
 \setmainfont{STIXTwoText-Regular.ttf}[
-    Path = font/enfonts/,
+    Path = font/,
     BoldFont = STIXTwoText-Bold.ttf,
     ItalicFont = STIXTwoText-Italic.ttf,
     BoldItalicFont = STIXTwoText-BoldItalic.ttf]
 % 无衬线: 思源黑体 (其西文字形为 Source Sans, 干净现代)
 \setsansfont{SourceHanSansCN-Regular.otf}[
-    Path = font/englishfonts/, BoldFont = SourceHanSansCN-Bold.otf]
+    Path = font/, BoldFont = SourceHanSansCN-Bold.otf]
 % 等宽 (代码/命令行): JetBrains Mono
 \setmonofont{JetBrainsMono-Regular.ttf}[
-    Path = font/englishfonts/,
+    Path = font/,
     BoldFont = JetBrainsMono-Bold.ttf,
     ItalicFont = JetBrainsMono-Italic.ttf,
     BoldItalicFont = JetBrainsMono-BoldItalic.ttf]
 
-%----- 数学字体: STIX Two Math (取自 font/math/, 经 unicode-math 接入) -----
+%----- 数学字体: STIX Two Math (取自 font/ 目录, 经 unicode-math 接入) -----
 % STIX Two 没有粗体数学字形, 故指定同源字体 XITS Math Bold 充当粗体
 % (供向量、矩阵等 \boldsymbol 使用; 如不需要粗体数学, 可去掉 BoldFont 选项)
 \RequirePackage{unicode-math}                   % OpenType 数学排版引擎
 \setmathfont{STIXTwoMath-Regular.ttf}[
-    Path = font/math/, BoldFont = XITSMath-Bold.otf]
+    Path = font/, BoldFont = XITSMath-Bold.otf]
 % 证毕符号: 改用数学字体自带的白色方格, 避免使用会回退到 AMS 字体的 \square
 \renewcommand{\qedsymbol}{\ensuremath{\mdlgwhtsquare}}
 
-% 如需更换字体: 把字体文件放入对应目录 (中文 font/fandolfonts/、西文
-% font/enfonts/ 或 font/englishfonts/、数学 font/math/), 再修改上面相应设置即可.
+% 如需更换字体: 把字体文件放入 font/ 目录 (或其他自建子目录), 再修改上面相应设置即可.
 
 % ===============================================================
 %  二、常用宏包
