@@ -1,44 +1,33 @@
-@rem ------------------------------------------------
-@rem            LaTeX Automated Compiler
-@rem ------------------------------------------------
 @echo off
 @rem ------------------------------------------------
-@rem ->> Set tex compiler
+@rem  zhbook 编译脚本 (基于 latexmk)
+@rem
+@rem  用法:
+@rem    makefiles.bat            编译 main.tex
+@rem    makefiles.bat clean      清理中间文件
+@rem    makefiles.bat cleanall   清理中间文件与 main.pdf
 @rem ------------------------------------------------
-set CompileName="xelatex"
-@rem ------------------------------------------------
-@rem ------------------------------------------------
-@rem ->> Get source filename
-@rem ------------------------------------------------
-for %%F in (*.tex) do (
-set FileName=%%~nF
-)
-@rem ------------------------------------------------
-@rem ->> Set environmental variables
-@rem ------------------------------------------------
-set TEXINPUTS=.//;%TEXINPUTS%
-set BIBINPUTS=.//;%BIBINPUTS%
-set BSTINPUTS=.//;%BSTINPUTS%
-@rem ------------------------------------------------
-@rem ->> Build textual content
-@rem ------------------------------------------------
-%CompileName% %FileName%
-@rem ------------------------------------------------
-@rem ->> Build references and links
-@rem ------------------------------------------------
-bibtex %FileName%
-@rem makeindex %FileName%
-%CompileName% %FileName%
-%CompileName% %FileName%
-@rem ------------------------------------------------
-@rem ->> Delete temporary file
-@rem ------------------------------------------------
-del /q *.aux *.bbl *.blg *.log *.out *.toc *.bcf *.xml *.synctex *.nlo *.nls *.bak *.ind *.idx *.ilg *.lof *.lot *.ent-x *.tmp *.ltx *.los *.lol *.loc *.listing *.gz *.userbak *.nav *.snm *.vrb *.synctex(busy)
-del /q *.nav *.snm *.vrb *.fls *.xdv *.fdb_latexmk
-@rem ------------------------------------------------
-@rem ->> View compiled file
-@rem ------------------------------------------------
-echo ------------------------------------------------
-echo %CompileName% %FileName%.tex finished...
-echo ------------------------------------------------
+setlocal
+cd /d "%~dp0"
 
+set MODE=%1
+if "%MODE%"=="" set MODE=build
+
+if /i "%MODE%"=="clean" (
+    latexmk -c
+    goto :end
+)
+if /i "%MODE%"=="cleanall" (
+    latexmk -C
+    goto :end
+)
+
+latexmk
+if errorlevel 1 (
+    echo [错误] 编译失败, 详情请查看 main.log
+    exit /b 1
+)
+echo [完成] 已生成 main.pdf
+
+:end
+endlocal

@@ -20,14 +20,15 @@
 \DeclareOption*{\PassOptionsToClass{\CurrentOption}{ctexbook}}
 \ProcessOptions\relax
 
+%---------- 字体宏包选项 ----------
+% 必须在载入 ctexbook 之前设置: ctexbook 内部会经 xeCJK 载入 fontspec
+\PassOptionsToPackage{no-math}{fontspec}
+
 %---------- 载入Class ----------
 \LoadClass[UTF8,a4paper]{ctexbook}
 \@ifclasslater{ctexbook}{2017/01/01}{}{%
     \ClassError{zhbook}{ctex >= 2017/01/01 is required ...}{}%
 }
-
-%---------- 中文字体宏包 ----------
-\PassOptionsToPackage{no-math}{fontspec}
 
 %---------- 定义页边距 ----------
 \RequirePackage{geometry}
@@ -305,7 +306,7 @@
 }
 
 %------- 公式编号带章节 ----------
-\numberwithin{equation}{chapter}
+% 已在本文件"设置图表格式"一节统一设置 \numberwithin{equation}{chapter}
 %\renewcommand{\theequation}{\arabic{chapter}.\arabic{equation}}
 
 % 重新设置公式autoref
