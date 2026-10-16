@@ -8,7 +8,10 @@
 %--- 各章从奇数页开始 (openright: 自动插入空白页, 适合双面打印) ---
 %\documentclass[twoside,openright,zihao=-4]{zhbook}
 
-% 说明: print 选项用于打印, 会在封面等处生成空白页; zihao=-4 表示正文小四号字.
+% 说明: zihao=-4 表示正文小四号字; 常用类选项还有:
+%   print               打印模式: 封面等处生成空白页, 并隐藏链接颜色
+%   mathfont=xits       数学字体: 可选 lmodern/xits/termes/stix2/pagella, 默认不改变
+%   bindingoffset=1cm   装订线宽度: 双面打印/胶装时在页面内侧额外留白
 
 % 书籍信息设置 (用于生成封面)
 \title{中文书籍 \LaTeX{} 模板}  % 主标题
@@ -28,12 +31,13 @@
 %\setmonofont{Courier New}  % 等宽字体(代码等), 一般无需设置
 
 %----- 设置数学字体 -----
-%\usepackage{newtxmath}
-%\usepackage{mathptmx}
+% 数学字体建议用类选项设置, 例如: \documentclass[...,mathfont=xits]{zhbook}
+% 可选 lmodern (Latin Modern) / xits (与 Times 风格一致, 含粗体) / termes (TeX Gyre Termes) /
+%      stix2 (STIX Two) / pagella (TeX Gyre Pagella); 不设置时沿用 LaTeX 默认数学字体.
 
 %----- 添加其他宏包 -----
 %\usepackage[notcite,notref]{showkeys}  % 调试用: 页边显示引用/标签键名
-\usepackage{listings}  % 代码排版
+% 代码排版 (listings) 已由文类载入并配置样式 (行号/边框/配色), 可直接使用 lstlisting 环境
 \usepackage{subcaption}  % 子图排版 (caption 宏包的配套子图宏包)
 
 %----- 取消链接颜色和方框 (hyperref 在导言末尾载入, 设置须放入 \AtEndPreamble) -----

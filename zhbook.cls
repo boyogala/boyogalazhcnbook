@@ -7,12 +7,39 @@
 \NeedsTeXFormat{LaTeX2e}
 
 %---------- 定义的新的Options ----------
+\RequirePackage{etoolbox}  % 补丁工具 (提前载入: 下面解析类选项需要其中的 \ifdefstring 等命令)
+
 \newif\ifprint
 \DeclareOption{print}{\printtrue}                                    % 打印模式: 封面等处生成空白页并隐藏链接颜色
 \DeclareOption{openany}{\PassOptionsToClass{openany}{ctexbook}}      % 每章从任意页开始
 \DeclareOption{openright}{\PassOptionsToClass{openright}{ctexbook}}  % 每章从奇数页开始
 \DeclareOption{twoside}{\PassOptionsToClass{twoside}{ctexbook}}      % 双面排版
-\DeclareOption*{\PassOptionsToClass{\CurrentOption}{ctexbook}}       % 其余选项透传给 ctexbook
+
+%--- 自定义"键=值"类选项 (未匹配的选项原样透传给 ctexbook) ---
+%    mathfont=lmodern/xits/termes/stix2/pagella  数学字体 (默认: 不改变 LaTeX 默认数学字体)
+%    bindingoffset=1cm                           装订线宽度 (默认: 0pt, 不预留)
+\def\zhbook@mathfont{}          % 空 = 不改变默认数学字体
+\def\zhbook@bindingoffset{0pt}  % 装订线宽度
+\DeclareOption*{%
+    % 在选项后追加哨兵"==", 按第一个"="拆分 (无"="的选项也能安全解析):
+    % 匹配到自定义选项则记录, 其余选项原样透传给 ctexbook
+    \expandafter\zhbook@parsekv\CurrentOption==\@nil
+}
+% 拆分"键=值": #1=键, #2="值==" (末尾多两个哨兵"=", 再用 \zhbook@stripval 去掉)
+\def\zhbook@parsekv#1=#2\@nil{%
+    \def\zhbook@tempkey{#1}%
+    \zhbook@stripval#2\@nil
+    \ifdefstring{\zhbook@tempkey}{mathfont}{%
+        \let\zhbook@mathfont\zhbook@tempval
+    }{%
+    \ifdefstring{\zhbook@tempkey}{bindingoffset}{%
+        \let\zhbook@bindingoffset\zhbook@tempval
+    }{%
+        \PassOptionsToClass{\CurrentOption}{ctexbook}% 其他选项透传
+    }}%
+}
+% 去掉值末尾的哨兵"==" (无值选项的 #2 恰为"==", 去掉后为空)
+\def\zhbook@stripval#1==\@nil{\def\zhbook@tempval{#1}}
 \ProcessOptions\relax
 
 %---------- 字体宏包选项 ----------
@@ -28,6 +55,8 @@
 %---------- 定义页边距 ----------
 \RequirePackage{geometry}
 \geometry{left=3.0cm,right=3.0cm,top=3.0cm,bottom=2.8cm}  % 上下左右边距
+\ifx\zhbook@bindingoffset\@empty\def\zhbook@bindingoffset{0pt}\fi  % 空值保护
+\geometry{bindingoffset=\zhbook@bindingoffset}  % 装订线: 双面打印时在页面内侧额外预留 (默认 0pt)
 %\geometry{centering,body={16cm,22cm}}                    % 备选: 固定版心尺寸
 %\geometry{left=2.5cm,right=2.5cm,top=2.8cm,bottom=2.6cm} % 备选: 较窄的边距
 \setlength{\headheight}{18pt}  % 页眉高度
@@ -35,8 +64,34 @@
 \setlength{\footskip}{28pt}    % 正文到页码的距离
 
 %---------- 常用宏包 ----------
-\RequirePackage{amsmath,amssymb,amsthm}  % 数学公式、符号与定理
-\RequirePackage{mathrsfs}                % 花体数学符号
+\RequirePackage{amsmath,amsthm}  % 数学公式与定理
+% 校验 mathfont 取值: 未知值给出警告并回退为默认数学字体
+\ifdefstring{\zhbook@mathfont}{lmodern}{}{%
+\ifdefstring{\zhbook@mathfont}{xits}{}{%
+\ifdefstring{\zhbook@mathfont}{termes}{}{%
+\ifdefstring{\zhbook@mathfont}{stix2}{}{%
+\ifdefstring{\zhbook@mathfont}{pagella}{}{%
+    \ifx\zhbook@mathfont\@empty\else
+        \ClassWarningNoLine{zhbook}{未知的 mathfont 值: \zhbook@mathfont; 将使用默认数学字体. 可选: lmodern/xits/termes/stix2/pagella}%
+        \def\zhbook@mathfont{}% 回退为默认
+    \fi
+}}}}}
+\ifx\zhbook@mathfont\@empty
+    %--- 默认: LaTeX 传统数学字体 (Computer Modern 风格) ---
+    \RequirePackage{amssymb}   % AMS 数学符号
+    \RequirePackage{mathrsfs}  % 花体数学符号 \mathscr
+\else
+    %--- unicode-math 模式: 使用 OpenType 数学字体 (XeLaTeX 下推荐的方式) ---
+    % 各字体按 TeX Live 内的文件名载入, 确保不同系统上都能找到;
+    % 其中仅 XITS 自带粗体数学字形 (BoldFont), 其余字体的粗体数学自动回退为常规字形.
+    \RequirePackage{unicode-math}
+    \ifdefstring{\zhbook@mathfont}{lmodern}{\setmathfont{latinmodern-math.otf}}{%
+    \ifdefstring{\zhbook@mathfont}{xits}{\setmathfont{XITSMath-Regular.otf}[BoldFont=XITSMath-Bold.otf]}{%
+    \ifdefstring{\zhbook@mathfont}{termes}{\setmathfont{texgyretermes-math.otf}}{%
+    \ifdefstring{\zhbook@mathfont}{stix2}{\setmathfont{STIXTwoMath-Regular.otf}}{%
+    \ifdefstring{\zhbook@mathfont}{pagella}{\setmathfont{texgyrepagella-math.otf}}{%
+    }}}}}%
+\fi
 \RequirePackage{graphicx}                % 插图
 \RequirePackage{tabularx}                % 宽度自适应的表格
 \RequirePackage{booktabs}                % 三线表
@@ -47,7 +102,6 @@
 \RequirePackage{makecell}                % 单元格内换行
 \RequirePackage{color,xcolor}            % 颜色
 \RequirePackage{fancyhdr}                % 页眉页脚
-\RequirePackage{etoolbox}                % 补丁工具
 \RequirePackage{anyfontsize}             % 任意字号
 \RequirePackage{titletoc}                % 目录条目格式
 \RequirePackage{pdfpages}                % 插入外部 PDF
@@ -200,6 +254,29 @@
 \algrenewcommand\algorithmicrequire{\textbf{输入:}}  % Require 显示为"输入"
 \algrenewcommand\algorithmicensure{\textbf{输出:}}   % Ensure 显示为"输出"
 
+%---------- 代码排版 (listings 宏包) ----------
+% 注: 配合 ctex/xeCJK 使用时, 代码中的中文 (如注释) 可正常排版, 无需额外设置.
+\RequirePackage{listings}
+\lstset{
+    basicstyle   = \ttfamily\zihao{5},      % 代码字体: 等宽, 5 号字
+    keywordstyle = \color{blue!80!black},   % 关键字颜色
+    commentstyle = \color{green!45!black},  % 注释颜色
+    stringstyle  = \color{red!70!black},    % 字符串颜色
+    numbers      = left,                    % 行号显示在左侧
+    numberstyle  = \tiny\color{gray},       % 行号样式
+    numbersep    = 8pt,                     % 行号与代码的距离
+    frame        = single,                  % 单线边框
+    rulecolor    = \color{gray!60},         % 边框颜色
+    breaklines   = true,                    % 长行自动折行
+    columns      = flexible,                % 字符间距弹性, 避免行溢出
+    keepspaces   = true,                    % 保留空格
+    tabsize      = 4,                       % Tab 宽度
+    showstringspaces = false,               % 字符串中的空格不加特殊标记
+    aboveskip    = 8pt,                     % 代码块与上方正文的间距
+    belowskip    = 8pt,                     % 代码块与下方正文的间距
+    %escapeinside = {(*@}{@*)},             % 备选: 代码中用 (*@...@*) 嵌入 LaTeX 命令
+}
+
 %------------- 设置附录 -----------
 %\renewcommand{\appendixname}{附录}
 
@@ -238,9 +315,21 @@
 \pagestyle{main}
 
 %---------- 中文段落缩进和行距 ----------
-\setlength{\parindent}{2em}                   % 段首缩进 2 个汉字
+% 段落策略: 每个自然段 (包括节标题后的首段) 首行缩进 2 个汉字宽, 段间加约 4pt 弹性间距, 行距 1.35 倍.
+\setlength{\parindent}{2\ccwd}                % 段首缩进 2 个汉字 (\ccwd 随字号自动变化)
 \setlength{\parskip}{4pt plus 1pt minus 1pt}  % 段落间距
 \linespread{1.35}  % 行距 1.35 倍
+%---------- 引文环境 (quote/quotation) ----------
+% 在默认"两侧缩进"的基础上, 使内部每个自然段首行缩进 2 个汉字 (与正文段落体例一致):
+% \itemindent 控制第一段首行, \listparindent 控制其后各段.
+\renewenvironment{quote}{%
+    \list{}{\rightmargin\leftmargin\listparindent=2\ccwd\itemindent\listparindent}%
+    \item\relax
+}{\endlist}
+\renewenvironment{quotation}{%
+    \list{}{\listparindent=2\ccwd\itemindent\listparindent\rightmargin\leftmargin\parsep\z@\@plus\p@}%
+    \item\relax
+}{\endlist}
 %\renewcommand{\baselinestretch}{1.35}
 %\topskip=15pt   % 书写区域顶部空白
 %\setlength{\baselineskip}{24pt}
@@ -260,7 +349,7 @@
 
 %--------- 定制图形和表格标题的样式 ----------
 \RequirePackage{caption}
-\captionsetup{font={small,singlespacing},labelformat={default},labelsep=quad}  % 标题用小字号, 单倍行距
+\captionsetup{font={small,singlespacing},labelformat={default},labelsep=quad,justification=centering}  % 标题小字号、单倍行距、居中 (中文书刊惯例)
 \captionsetup[figure]{position=bottom,skip={6pt},name={图}}   % 图题在图的下方
 \captionsetup[table]{position=top,skip={3pt},name={表}}       % 表题在表的上方
 \setlength{\textfloatsep}{12pt plus 2pt minus 2pt}  % 页顶/页底浮动体与正文的距离
@@ -335,7 +424,9 @@
 
 %---------- 定义列表项的样式 ----------
 \RequirePackage{enumitem}  % 列表间距控制
-\setlist{nolistsep}        % 列表项之间不留额外间距
+\setlist{nolistsep}                  % 列表项之间不留额外间距
+% 列表项内新起段落首行缩进 2 个汉字 (与正文一致); 仅限常规列表, 避免影响算法等 \list 环境
+\setlist[itemize,enumerate,description]{listparindent=2\ccwd}
 
 %---------- 定义新的标题页面 (封面) ----------
 \renewcommand{\maketitle}{

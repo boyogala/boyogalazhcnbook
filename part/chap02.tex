@@ -208,6 +208,38 @@ aligned 与 equation 环境套用, 公式间距自动调节, 如果有分式, �
 \end{center}
 
 
+\section{代码排版}
+
+行内代码用 \lstinline|\alpha+\beta| 或 \lstinline{openany} 这样的形式表示.
+
+整段代码使用 lstlisting 环境, 样式已在文类中统一配置 (行号、边框、配色; 中文注释可正常排版),
+只需用 language 参数指明语言即可, 支持 C、Python 等常见语言:
+
+\begin{lstlisting}[language=C]
+#include <stdio.h>
+
+int main(void)
+{
+    /* 求 1 到 100 的和: 注释中的中文也能正常排版 */
+    int sum = 0;
+    for (int i = 1; i <= 100; i++) {
+        sum += i;
+    }
+    printf("sum = %d\n", sum);
+    return 0;
+}
+\end{lstlisting}
+
+\begin{lstlisting}[language=Python]
+# 用牛顿迭代法计算平方根
+def sqrt_newton(a, tol=1e-12):
+    x = a / 2.0
+    while abs(x * x - a) > tol:
+        x = (x + a / x) / 2.0
+    return x
+\end{lstlisting}
+
+
 \section{\texorpdfstring{{\boldmath$Z=X \cup Y$}}{Z = X union Y} 的情况}
 
 这是一个小节标题中出现数学符号的情况.
