@@ -42,7 +42,7 @@
 | `e54a725` | 2026-10-17 | 字体族更名 cnsong/cnhei/cnfs/cnkai 并独立定义，消除 xeCJK 重定义警告 |
 | `285c1e3` | 2026-10-17 | 字体体系完全自足：删除 mathfont 备用选项，字体命令与字族全部项目自定 |
 
-随后一次「文档与版权完善」提交完成本文件、README 详细化与字体版权说明；项目作者新增的章节内容与 `main.pdf` 在发布前另行提交。
+随后一次「文档与版权完善」提交完成本文件、README 详细化与字体版权说明；项目作者新增的章节内容与 `main.pdf` 已另行提交（`863946a`）。
 
 ## 4. 字体体系设计（核心）
 
@@ -72,16 +72,9 @@
 
 ## 7. 当前状态与后续步骤
 
-- 分支 `main`；远程仓库 <https://github.com/boyogala/boyogalazhcnbook>（已创建、为空），尚未配置 remote 与推送；
-- 待提交：项目作者新增内容（`chapters/preface.tex`、`chapters/chap03.tex`、`chapters/epilogue.tex`）与示例输出 `main.pdf`；
-- 发布步骤（本地仓库就绪后）：
-
-  ```bash
-  git remote add origin git@github.com:boyogala/boyogalazhcnbook.git   # 或 HTTPS 地址
-  git push -u origin main
-  ```
-
-- 可选：在 GitHub 仓库设置描述与主题标签，并为 v1.1 创建 Release。
+- 分支 `main`；远程仓库 <https://github.com/boyogala/boyogalazhcnbook> 已配置并完成推送，本地与远程 `main` 同步于 `863946a`（含项目作者最新正文与示例输出 `main.pdf`）；
+- 日常更新：编辑后用 `git add -A && git commit -m "..." && git push` 推送即可；
+- 仓库设置：描述已设置；Topics 与 v1.1 Release 待发布（通过 GitHub 网页或授权后的接口完成）。
 
 ## 8. 关键文件速览
 
