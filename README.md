@@ -56,7 +56,7 @@
 | `\bioinfo{键}{值}` | 作者的其他信息（可选，显示为「键：值」） |
 | `\extrainfo{...}` | 封面底部附加信息，如出版社标志与名称（可选） |
 
-封面采用现代三栏式布局：上层为书名与副标题，中层为作者与封面图片，下层为座右铭；同时设置 `\motto` 与 `\date` 时，封面优先显示座右铭（日期与版本不再出现）。点缀色与封面字体可分别在 `boyogalazhcnbook.cls`（`boyogalagreen`）与 `boyogalazhcnbooksetting.tex`（`zhcover` 字族）中修改。
+封面采用现代三栏式布局：上层为书名与副标题，中层为作者与封面图片，下层为座右铭；同时设置 `\motto` 与 `\date` 时，封面优先显示座右铭（日期与版本不再出现）。点缀色与封面字体可分别在 `boyogalazhcnbook.cls`（`boyogalagreen`）与 `boyogalazhcnbooksetting.tex`（`cncover` 字族）中修改。
 
 ## 类选项
 
@@ -66,13 +66,13 @@
 | `openany` / `openright` | — | 各章从任意页（默认）/ 奇数页开始 |
 | `twoside` / `oneside` | — | 双面（默认）/ 单面排版 |
 | `zihao` | `-4`、`5` 等 | 正文字号，默认小四号（`zihao=-4`） |
-| `fontset` | `windows`、`mac`、`fandol` 等 | 中文字体集（模板默认 `fandol`；实际字体统一由 `boyogalazhcnbooksetting.tex` 指定） |
+| `fontset` | — | 固定为 `none`：中文字体全部由 `boyogalazhcnbooksetting.tex` 指定，无需系统字体集 |
 | `mathfont` | `lmodern`、`xits`、`termes`、`stix2`、`pagella` | 备用数学字体（取自 TeX Live）；默认数学字体由 `boyogalazhcnbooksetting.tex` 配置，会覆盖此选项 |
 | `bindingoffset` | 长度，如 `1cm` | 装订线：双面打印时在页面内侧额外预留的宽度 |
 
 - `mathfont` 为备用选项（使用 TeX Live 自带字体）；默认数学字体由 `boyogalazhcnbooksetting.tex` 配置，会覆盖此选项；
 - 装订线建议配合 `openright` 或 `print` 模式使用，此时前置页从奇数页开始，装订边与物理页一致；
-- ctexbook 文类的其他选项（如 `fontset`、`heading` 等）均可直接传给本模板。
+- ctexbook 文类的其他选项（如 `heading`、`scheme` 等）均可直接传给本模板。
 
 ## 字体
 
@@ -86,7 +86,7 @@
 | 中文等宽 | Fandol 仿宋 | `font/` | GPL v3 |
 | 西文正文 | STIX Two Text | `font/` | SIL OFL 1.1 |
 | 西文无衬线 | 思源黑体（拉丁部分为 Source Sans） | `font/` | SIL OFL 1.1 |
-| 封面标题 | 思源黑体（加粗，`zhcover` 字族） | `font/` | SIL OFL 1.1 |
+| 封面标题 | 思源黑体（加粗，`cncover` 字族） | `font/` | SIL OFL 1.1 |
 | 数学 | STIX Two Math（粗体数学用同源的 XITS Math Bold） | `font/` | SIL OFL 1.1 |
 | 代码 / 等宽 | JetBrains Mono | `font/` | SIL OFL 1.1 |
 

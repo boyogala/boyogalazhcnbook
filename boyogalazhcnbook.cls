@@ -64,9 +64,9 @@
 \ExplSyntaxOff
 
 %---------- 载入Class ----------
-% fontset=fandol: 固定使用 Fandol 字体集, 使各系统上的中文标点行为一致;
-% 字体文件的实际路径在 boyogalazhcnbooksetting.tex 中指向本仓库自带的 font/ 目录
-\LoadClass[UTF8,a4paper,fontset=fandol]{ctexbook}
+% fontset=none: 不使用 ctex 预置的字体集, 中文字体全部由 boyogalazhcnbooksetting.tex
+% 指定 (取自本仓库 font/ 目录); 字体族名与之互不冲突, 编译日志无重定义警告
+\LoadClass[UTF8,a4paper,fontset=none]{ctexbook}
 \@ifclasslater{ctexbook}{2017/01/01}{}{%
     \ClassError{boyogalazhcnbook}{ctex >= 2017/01/01 is required ...}{}%
 }
