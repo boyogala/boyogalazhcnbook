@@ -4,14 +4,18 @@
 
 <p align="center"><img src="docs/images/cover.png" width="42%"></p>
 
+本项目是一个开箱即用的中文书籍 LaTeX 模板：面向正式出版物的完整结构（封面、前言、目录、插图/表格清单、主要符号表、章节、附录、参考文献、索引、后记），自带全套字体与符合 GB/T 7714—2025 的参考文献样式，获取后无需安装任何字体、无需联网即可用 XeLaTeX 直接编译成书；示例书本身即使用教程。
+
 ## 目录
 
 - [特性](#特性)
 - [快速开始](#快速开始)
+- [封面信息](#封面信息)
 - [类选项](#类选项)
 - [字体](#字体)
 - [编译方法](#编译方法)
 - [参考文献](#参考文献)
+- [写作与组织](#写作与组织)
 - [排版细节](#排版细节)
 - [目录结构](#目录结构)
 - [效果预览](#效果预览)
@@ -22,6 +26,7 @@
 ## 特性
 
 - 书籍结构齐全：封面、前言、目录、插图清单、表格清单、主要符号表、章节、附录、参考文献、索引、后记；
+- 示例即教程：示例书第 2 章演示常用环境（定理、算法、代码等）、第 4、5 章演示插图与表格排版，均可直接照用；
 - 数学环境丰富：定理、引理、定义、例、推论、注、练习、假设、公理、性质、猜想等 12 种，附证明环境；数学工具齐全（amsmath、amsthm、mathtools、unicode-math）；
 - 常用排版：算法与伪代码（algorithm、algpseudocode）、代码（listings，中文注释可正常排版）、子图与并排图（subcaption、minipage）、绘图与流程图（tikz）、多栏排版（multicol）、三线表（booktabs）、索引（imakeidx）；
 - 参考文献符合国家标准 GB/T 7714—2025，顺序编码制与著者-出版年制均可（BibTeX，样式文件随附）；
@@ -33,13 +38,21 @@
 
 ## 快速开始
 
-**注意：推荐安装 TeX Live 发行版（或 MiKTeX），并且需要使用 XeLaTeX 编译！**
+**环境要求：** 安装 TeX Live（推荐 2023 或更新版本）或 MiKTeX，并且**必须使用 XeLaTeX 编译**。模板自带全部字体，无需在系统中安装任何字体，也无需联网。
+
+上手只需三步：
+
+1. 获取本仓库全部文件（`git clone` 或下载 ZIP 解压），保持目录结构完整——尤其不要遗漏 `font/` 目录；
+2. 在 `main.tex` 顶部填写书名、作者等封面信息（见[封面信息](#封面信息)），在 `chapters/` 中撰写内容（见[写作与组织](#写作与组织)）；
+3. 在项目根目录运行 `latexmk` 完成编译（见[编译方法](#编译方法)）。
+
+推荐的文档类选项（`main.tex` 已按此设置）：
 
 ```tex
 \documentclass[openany,twoside,zihao=-4]{boyogalazhcnbook}  % 本模板推荐的默认选项
 ```
 
-将本仓库作为起点使用即可：`boyogalazhcnbook.cls`（文类，版式主体）、`boyogalazhcnbooksetting.tex`（全局设置：字体、宏包、参考文献与索引）、`main.tex`（主文件，书籍信息与章节组织）、`chapters/`（各章节源文件）、`font/`（模板所用字体）、`reference.bib`（参考文献库）与两个 `gbt7714-2025-*.bst` 样式文件放在同一目录，修改封面信息与内容后用 latexmk 编译（见下一节）。
+文件分工：`boyogalazhcnbook.cls` 为文类（版式主体）；`boyogalazhcnbooksetting.tex` 为全局设置（字体、宏包、参考文献与索引）；`main.tex` 为主文件（封面信息与章节组织）；`chapters/` 存放各章源文件；`font/` 存放模板所用的全部字体；`reference.bib` 与两个 `gbt7714-2025-*.bst` 为参考文献库与样式文件。
 
 ## 封面信息
 
@@ -74,25 +87,61 @@
 
 ## 字体
 
-模板的全部字体都直接从仓库 `font/` 目录读取字体文件（不依赖系统安装、不依赖第三方字体集、不联网），任何电脑上的排版效果一致：
+### 字体清单与自足设计
 
-| 用途 | 字体 | 位置 | 许可 |
+模板的全部字体都直接从仓库 `font/` 目录读取字体文件（不依赖系统安装、不依赖第三方字体集、不联网），在任何电脑上的排版效果一致：
+
+| 用途 | 字体（版本） | 字族 / 命令 | 许可 |
 | --- | --- | --- | --- |
-| 中文正文 | Fandol 宋体（粗体、斜体配套） | `font/` | GPL v3 |
-| 中文标题 | Fandol 黑体 | `font/` | GPL v3 |
-| 中文斜体 / 引用 | Fandol 楷体 | `font/` | GPL v3 |
-| 中文等宽 | Fandol 仿宋 | `font/` | GPL v3 |
-| 西文正文 | STIX Two Text | `font/` | SIL OFL 1.1 |
-| 西文无衬线 | 思源黑体（拉丁部分为 Source Sans） | `font/` | SIL OFL 1.1 |
-| 封面标题 | 思源黑体（加粗，`cncover` 字族） | `font/` | SIL OFL 1.1 |
-| 数学 | STIX Two Math（粗体数学用同源的 XITS Math Bold） | `font/` | SIL OFL 1.1 |
-| 代码 / 等宽 | JetBrains Mono | `font/` | SIL OFL 1.1 |
+| 中文正文（宋体） | Fandol 宋体（1.300，含粗体，斜体为楷体） | `cnsong` / `\songti` | GPL v3 † |
+| 中文标题（黑体） | Fandol 黑体（1.300，含粗体） | `cnhei` / `\heiti` | GPL v3 † |
+| 中文斜体 / 引用（楷体） | Fandol 楷体（1.300） | `cnkai` / `\kaishu` | GPL v3 † |
+| 中文等宽（仿宋） | Fandol 仿宋（1.300） | `cnfs` / `\fangsong` | GPL v3 † |
+| 封面 | 思源黑体（2.004，加粗） | `cncover` / `\coverfont` | SIL OFL 1.1 |
+| 西文正文 | STIX Two Text（2.13） | 随正文自动 | SIL OFL 1.1 |
+| 西文无衬线 | 思源黑体（拉丁部分为 Source Sans） | 随 `\textsf` 自动 | SIL OFL 1.1 |
+| 数学 | STIX Two Math（2.13；粗体数学用 XITS Math Bold 1.302） | 随数学环境自动 | SIL OFL 1.1 |
+| 代码 / 命令行 | JetBrains Mono（2.304） | 随 `\texttt`、代码环境自动 | SIL OFL 1.1 |
 
-- 中文命令（由本模板定义，全部指向 `font/` 中的字体）：`\songti` 宋体、`\heiti` 黑体、`\kaishu` 楷体、`\fangsong` 仿宋、`\coverfont` 封面（思源黑体）；西文与数学无需切换命令，`\rmfamily`、`\sffamily`、`\ttfamily` 与数学环境已直接使用上表字体；
-- 更换或调整字体：编辑 `boyogalazhcnbooksetting.tex` 第一节「字体设置」，把字体文件放入 `font/` 目录即可；
-- STIX Two 是当前主流的现代数学字体（Times 风格的学术修订版），但暂无粗体数学字形，模板用同源的 XITS Math Bold 补足，
-  向量、矩阵等的 `\boldsymbol` 可正常加粗；不需要粗体数学时，删去 `boyogalazhcnbooksetting.tex` 中的 `BoldFont = XITSMath-Bold.otf` 一行即可；
-- 上表字体均为自由字体（GPL v3 / SIL OFL 1.1），可随模板公开分发；如替换为其他字体（尤其商业字体），请自行确认授权。
+† Fandol 为 GPL v3 **附加字体嵌入例外**：在文档中正常使用、嵌入这些字体，不会使您的书稿受 GPL 约束。
+
+文类以 `fontset=none` 载入 ctexbook，不经过任何 ctex 字体集；上表中的字族与中文命令均由本模板**自行定义**，不依赖任何第三方字体设置。
+
+### 中文命令与字体族
+
+中文切换命令（全部指向 `font/` 中的字体文件）：
+
+```tex
+{\songti 宋体}  {\heiti 黑体}  {\kaishu 楷体}  {\fangsong 仿宋}  {\coverfont 封面字体}
+```
+
+- 正文默认宋体；`\textbf` 得到宋体粗体（FandolSong-Bold），`\emph` / `\textit` 得到楷体（与中文书籍惯例一致）；
+- 黑体带粗体字形；楷体、仿宋仅有常规字重，加粗时保持常规显示；
+- 字体族 `cnsong` / `cnhei` / `cnkai` / `cnfs` / `cncover` 也可直接使用，如 `{\CJKfamily{cnfs} 仿宋文字}`。
+
+### 西文、数学与封面
+
+- 西文：`\textrm`（STIX Two Text）、`\textsf`（思源黑体）、`\texttt`（JetBrains Mono）已与上表一一对应；
+- 数学由 unicode-math 统一排版；`\boldsymbol` 等粗体数学使用 XITS Math Bold 补足（STIX Two 暂无粗体数学字形）。不需要粗体数学时，删去 `boyogalazhcnbooksetting.tex` 中的 `BoldFont = XITSMath-Bold.otf` 一项即可；
+- 封面使用 `cncover`（思源黑体）与点缀色 `boyogalagreen`，更换方法见下文与「封面信息」一节。
+
+### 更换或新增字体
+
+所有字体设置集中在 `boyogalazhcnbooksetting.tex` 第一节「字体设置」，只需修改这一节：
+
+1. 把新字体文件放入 `font/` 目录（也可另建子目录，并相应修改 `Path` 选项）；
+2. 照已有条目的格式修改设置，或按下例新增字体族与命令：
+
+```tex
+\setCJKfamilyfont{cnlishu}{MyLishu-Regular.otf}[Path = font/]   % 新增字体族
+\newcommand\lishu{\CJKfamily{cnlishu}}                          % 新增切换命令
+```
+
+3. 重新编译即可，无需在系统中安装该字体。
+
+### 许可说明
+
+模板所用字体均为自由字体，可随模板自由分发与使用：Fandol 为 GPL v3（附字体嵌入例外）；STIX Two、XITS Math、思源黑体、JetBrains Mono 为 SIL OFL 1.1。各字体的版权人、版本、来源与许可全文见 [`font/README.md`](font/README.md) 及 `font/` 中的 `GPLv3-Fandol.txt`、`OFL-*.txt` 许可文本。
 
 ## 编译方法
 
@@ -124,10 +173,31 @@ latexmk -c         # 清理中间文件
 
 ## 参考文献
 
-文献信息写在 `reference.bib` 中。默认样式 `gbt7714-2025-numeric` 对应顺序编码制，引用格式可选
-`numbers` 或 `super`（上标）；也可切换为 `gbt7714-2025-authoryear`（著者-出版年制，对应引用格式
-`authoryear`）。著录规则符合国家标准 GB/T 7714—2025《信息与文献 参考文献著录规则》。
-引用与样式切换方法见 `main.tex` 中相应注释。
+- 文献条目写在 `reference.bib` 中（标准 BibTeX 格式），正文用 `\cite{键名}` 引用；`\nocite{*}` 可临时列出全部文献；
+- 默认样式 `gbt7714-2025-numeric` 为顺序编码制，引用格式可选 `numbers`（方括号数字）或 `super`（上标）；
+- 也可以切换为 `gbt7714-2025-authoryear`（著者-出版年制，配合引用格式 `authoryear`）；两种著录规则均符合国家标准 GB/T 7714—2025《信息与文献 参考文献著录规则》；
+- 样式与引用格式的切换方法见 `boyogalazhcnbooksetting.tex` 第三节「参考文献 / 引用 / 索引」中相应注释；
+- 样式文件 `gbt7714-2025-numeric.bst`、`gbt7714-2025-authoryear.bst` 来自 Zeping Lee 的 [gbt7714-bibtex-style](https://github.com/zepinglee/gbt7714-bibtex-style) 项目（LPPL 1.3c+，版权归原作者）；
+- 也可以不用 BibTeX：注释掉 `main.tex` 中的 `\bibliography{reference}`，改用 `\input{chapters/bibliography}` 以 `thebibliography` 环境手工排版文献。
+
+## 写作与组织
+
+常用写作任务一览；示例书相应章节均附有可直接照用的完整示例：
+
+| 任务 | 做法 |
+| --- | --- |
+| 撰写章节 | 在 `chapters/` 新建 `chap06.tex`（以 `\chapter{...}` 开头），并在 `main.tex` 对应位置加一行 `\include{chapters/chap06}`（只编译该章的方法见[编译方法](#编译方法)） |
+| 前言 / 后记 | 编辑 `chapters/preface.tex`、`chapters/epilogue.tex` |
+| 附录 | 编辑 `chapters/appendix.tex`，每篇附录一个 `\chapter{...}`，自动编为附录 A、B… |
+| 主要符号表 | 编辑 `chapters/denotation.tex`（符号、描述、单位三列）；不需要时在 `main.tex` 中注释对应 `\input` 行 |
+| 定理等数学环境 | 定理、引理、定义、例、推论、注、练习、假设、公理、性质、猜想 12 种环境与 `proof` 证明环境，示例见第 2 章 |
+| 插图 | `\includegraphics` 配合 `figure` 环境；并排子图用 `subcaption`，示例见第 4 章 |
+| 表格 | 三线表（`booktabs`）、自适应宽表（`tabularx`）、跨页长表（`longtable`）、合并单元格（`multirow`、`makecell`），示例见第 5 章 |
+| 算法与伪代码 | `algorithm` + `algpseudocode` 环境，示例见第 2 章 |
+| 代码清单 | `lstlisting` 环境（已配置行号、边框、配色，支持中文注释），示例见第 2 章 |
+| 绘图 | 直接用 `tikzpicture`（已载入 positioning、arrows.meta、shapes.geometric、calc 库），示例见第 2 章 |
+| 引用文献 | 在 `reference.bib` 添加条目，正文 `\cite{键名}`（详见[参考文献](#参考文献)） |
+| 索引 | 正文写 `\index{条目}`，编译时自动生成索引 |
 
 ## 排版细节
 
@@ -146,18 +216,21 @@ boyogalazhcnbooksetting.tex   全局设置 (字体、宏包、参考文献与索
 main.tex                      主文件 (书籍信息与章节组织)
 chapters/                     各章节源文件
 ├── preface.tex               前言
-├── chap01.tex … chap05.tex   第 1–5 章
+├── chap01.tex … chap05.tex   第 1–5 章 (示例内容即使用教程)
 ├── appendix.tex              附录 A、B
 ├── denotation.tex            主要符号表
+├── bibliography.tex          手工排参考文献的备用示例 (与 BibTeX 方式二选一)
 └── epilogue.tex              后记
 reference.bib                 参考文献库
 gbt7714-2025-numeric.bst      GB/T 7714—2025 顺序编码制样式
 gbt7714-2025-authoryear.bst   GB/T 7714—2025 著者-出版年制样式
-font/                         模板所用字体 (Fandol、STIX Two 等)
-figures/                      示例插图 (PDF)
+font/                         模板全部字体 (18 个字体文件 + 许可文本)
+figures/                      示例插图
 docs/images/                  README 预览图
 makefiles.sh / makefiles.bat  编译/清理脚本
 .latexmkrc                    latexmk 配置
+LICENSE                       许可协议 (MIT)
+whatwedid.md                  项目处理与交接说明
 ```
 
 ## 效果预览
@@ -204,6 +277,12 @@ makefiles.sh / makefiles.bat  编译/清理脚本
 使用 `print` 模式并设置装订线，例如：
 `\documentclass[print,openright,zihao=-4,bindingoffset=1cm]{boyogalazhcnbook}`。
 
+**可以使用自己电脑里已安装的字体吗？**
+可以。把 `boyogalazhcnbooksetting.tex` 中相应字体的 `Path = font/` 改为按字体名加载（或写入系统中文字体名、去掉 `Path` 与文件名）即可。不过为保证在任何电脑上编译效果一致，推荐把字体文件放入 `font/` 目录随项目分发；更换字体（尤其商业字体）时，请自行确认其许可是否允许分发。
+
+**模板为什么自带约 54 MB 字体文件？**
+为保证零配置、跨平台一致的排版效果，模板携带了全部所需字体与许可文本；字体只需随项目分发一次，编译时直接从 `font/` 读取，无需安装、无需联网。
+
 ## 致谢
 
 本模板最初基于 Liutao Tian 的 [zhbook](https://github.com/andy123t/zhbook) 项目开发。在此基础上，
@@ -211,9 +290,14 @@ makefiles.sh / makefiles.bat  编译/清理脚本
 更丰富的数学/绘图/多栏排版支持、更细致的排版处理——已发展成为独立的中文书籍模板体系。
 谨向原始项目及其作者致以诚挚的谢意。
 
+项目处理过程、设计说明与验证方法详见 [whatwedid.md](whatwedid.md)。
+
 ## 许可协议
 
-本项目基于 MIT 许可协议发布，详情见 [LICENSE](LICENSE)。
-
-模板所用字体均为自由字体（Fandol：GPL v3；STIX Two、思源黑体、JetBrains Mono：SIL OFL 1.1），
-许可文本见 `font/` 目录中相应文件。
+- **模板代码**：MIT 许可，详情见 [LICENSE](LICENSE)。本项目由 Liutao Tian 的 [zhbook](https://github.com/andy123t/zhbook) 发展而来，`LICENSE` 中保留原项目版权声明；
+- **字体**：全部为自由字体，可随模板公开分发与使用——
+  - Fandol（宋 / 黑 / 楷 / 仿）：GPL v3 **附加字体嵌入例外**，在文档中使用、嵌入这些字体不会使您的书稿受 GPL 约束；
+  - STIX Two、XITS Math、思源黑体、JetBrains Mono：SIL OFL 1.1；
+  - 各字体的版权人、来源与许可文本见 [`font/README.md`](font/README.md) 与 `font/` 中的 `GPLv3-Fandol.txt`、`OFL-*.txt`；
+- **参考文献样式**：`gbt7714-2025-*.bst` 版权归原作者 Zeping Lee（LPPL 1.3c+），声明见文件头部，本项目未做修改；
+- 使用本模板排版的书稿，其版权完全归作者所有，不受上述任何许可约束。

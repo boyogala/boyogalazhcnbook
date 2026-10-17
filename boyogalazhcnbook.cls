@@ -1,5 +1,8 @@
 %%
-%% boyogala@qq.com
+%% boyogalazhcnbook.cls —— 中文书籍 LaTeX 文类
+%% 由 Liutao Tian 的 zhbook 项目 (MIT 许可, https://github.com/andy123t/zhbook) 重构发展而来;
+%% 版权 (c) 2022 Liutao Tian, (c) 2026 boyogala (博优旮旯); 许可与声明见根目录 LICENSE.
+%% 联系: boyogala@qq.com
 %%
 
 %---------- 定义的新的Class ----------
