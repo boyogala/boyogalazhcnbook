@@ -93,17 +93,17 @@
 
 | 用途 | 字体（版本） | 字族 / 命令 | 许可 |
 | --- | --- | --- | --- |
-| 中文正文（宋体） | Fandol 宋体（1.300，含粗体，斜体为楷体） | `cnsong` / `\songti` | GPL v3 † |
-| 中文标题（黑体） | Fandol 黑体（1.300，含粗体） | `cnhei` / `\heiti` | GPL v3 † |
-| 中文斜体 / 引用（楷体） | Fandol 楷体（1.300） | `cnkai` / `\kaishu` | GPL v3 † |
-| 中文等宽（仿宋） | Fandol 仿宋（1.300） | `cnfs` / `\fangsong` | GPL v3 † |
+| 中文正文（宋体） | 思源宋体 Noto Serif CJK SC（2.003，含粗体，斜体为楷体） | `cnsong` / `\songti` | SIL OFL 1.1 |
+| 中文标题（黑体） | 思源黑体 Source Han Sans CN（2.004，含粗体） | `cnhei` / `\heiti` | SIL OFL 1.1 |
+| 中文斜体 / 引用（楷体） | 霞鹜文楷 LXGW WenKai（1.530） | `cnkai` / `\kaishu` | SIL OFL 1.1 |
+| 中文等宽（仿宋） | 朱雀仿宋 Zhuque Fangsong（0.212，技术预览版） | `cnfs` / `\fangsong` | SIL OFL 1.1 |
 | 封面 | 思源黑体（2.004，加粗） | `cncover` / `\coverfont` | SIL OFL 1.1 |
 | 西文正文 | STIX Two Text（2.13） | 随正文自动 | SIL OFL 1.1 |
-| 西文无衬线 | 思源黑体（拉丁部分为 Source Sans） | 随 `\textsf` 自动 | SIL OFL 1.1 |
+| 西文无衬线 | Source Sans 3（3.052） | 随 `\textsf` 自动 | SIL OFL 1.1 |
 | 数学 | STIX Two Math（2.13；粗体数学用 XITS Math Bold 1.302） | 随数学环境自动 | SIL OFL 1.1 |
 | 代码 / 命令行 | JetBrains Mono（2.304） | 随 `\texttt`、代码环境自动 | SIL OFL 1.1 |
 
-† Fandol 为 GPL v3 **附加字体嵌入例外**：在文档中正常使用、嵌入这些字体，不会使您的书稿受 GPL 约束。
+表中字体全部为 SIL OFL 1.1 自由字体，可随模板公开分发；各字体的版权、版本与来源详见 [`font/README.md`](font/README.md)。
 
 文类以 `fontset=none` 载入 ctexbook，不经过任何 ctex 字体集；上表中的字族与中文命令均由本模板**自行定义**，不依赖任何第三方字体设置。
 
@@ -115,13 +115,14 @@
 {\songti 宋体}  {\heiti 黑体}  {\kaishu 楷体}  {\fangsong 仿宋}  {\coverfont 封面字体}
 ```
 
-- 正文默认宋体；`\textbf` 得到宋体粗体（FandolSong-Bold），`\emph` / `\textit` 得到楷体（与中文书籍惯例一致）；
+- 正文默认宋体；`\textbf` 得到宋体粗体（NotoSerifCJKsc-Bold），`\emph` / `\textit` 得到楷体（与中文书籍惯例一致）；
 - 黑体带粗体字形；楷体、仿宋仅有常规字重，加粗时保持常规显示；
+- 仿宋（朱雀仿宋）为官方技术预览版，个别生僻字缺字时自动回退到思源宋体补齐（回退字体同样取自 `font/`，不依赖系统字体）；
 - 字体族 `cnsong` / `cnhei` / `cnkai` / `cnfs` / `cncover` 也可直接使用，如 `{\CJKfamily{cnfs} 仿宋文字}`。
 
 ### 西文、数学与封面
 
-- 西文：`\textrm`（STIX Two Text）、`\textsf`（思源黑体）、`\texttt`（JetBrains Mono）已与上表一一对应；
+- 西文：`\textrm`（STIX Two Text）、`\textsf`（Source Sans 3）、`\texttt`（JetBrains Mono）已与上表一一对应；
 - 数学由 unicode-math 统一排版；`\boldsymbol` 等粗体数学使用 XITS Math Bold 补足（STIX Two 暂无粗体数学字形）。不需要粗体数学时，删去 `boyogalazhcnbooksetting.tex` 中的 `BoldFont = XITSMath-Bold.otf` 一项即可；
 - 封面使用 `cncover`（思源黑体）与点缀色 `boyogalagreen`，更换方法见下文与「封面信息」一节。
 
@@ -141,7 +142,7 @@
 
 ### 许可说明
 
-模板所用字体均为自由字体，可随模板自由分发与使用：Fandol 为 GPL v3（附字体嵌入例外）；STIX Two、XITS Math、思源黑体、JetBrains Mono 为 SIL OFL 1.1。各字体的版权人、版本、来源与许可全文见 [`font/README.md`](font/README.md) 及 `font/` 中的 `GPLv3-Fandol.txt`、`OFL-*.txt` 许可文本。
+模板所用字体均为自由字体（全部为 SIL OFL 1.1），可随模板自由分发与使用：中文为思源宋体、思源黑体、霞鹜文楷、朱雀仿宋；西文与代码为 Source Sans 3、STIX Two、XITS Math、JetBrains Mono。各字体的版权人、版本、来源与许可全文见 [`font/README.md`](font/README.md) 及 `font/` 中的 `OFL-*.txt` 许可文本。
 
 ## 编译方法
 
@@ -224,7 +225,7 @@ chapters/                     各章节源文件
 reference.bib                 参考文献库
 gbt7714-2025-numeric.bst      GB/T 7714—2025 顺序编码制样式
 gbt7714-2025-authoryear.bst   GB/T 7714—2025 著者-出版年制样式
-font/                         模板全部字体 (18 个字体文件 + 许可文本)
+font/                         模板全部字体 (20 个字体文件 + 许可文本)
 figures/                      示例插图
 docs/images/                  README 预览图
 makefiles.sh / makefiles.bat  编译/清理脚本
@@ -280,7 +281,7 @@ whatwedid.md                  项目处理与交接说明
 **可以使用自己电脑里已安装的字体吗？**
 可以。把 `boyogalazhcnbooksetting.tex` 中相应字体的 `Path = font/` 改为按字体名加载（或写入系统中文字体名、去掉 `Path` 与文件名）即可。不过为保证在任何电脑上编译效果一致，推荐把字体文件放入 `font/` 目录随项目分发；更换字体（尤其商业字体）时，请自行确认其许可是否允许分发。
 
-**模板为什么自带约 54 MB 字体文件？**
+**模板为什么自带约 102 MB 字体文件？**
 为保证零配置、跨平台一致的排版效果，模板携带了全部所需字体与许可文本；字体只需随项目分发一次，编译时直接从 `font/` 读取，无需安装、无需联网。
 
 ## 致谢
@@ -295,9 +296,9 @@ whatwedid.md                  项目处理与交接说明
 ## 许可协议
 
 - **模板代码**：MIT 许可，详情见 [LICENSE](LICENSE)。本项目由 Liutao Tian 的 [zhbook](https://github.com/andy123t/zhbook) 发展而来，`LICENSE` 中保留原项目版权声明；
-- **字体**：全部为自由字体，可随模板公开分发与使用——
-  - Fandol（宋 / 黑 / 楷 / 仿）：GPL v3 **附加字体嵌入例外**，在文档中使用、嵌入这些字体不会使您的书稿受 GPL 约束；
-  - STIX Two、XITS Math、思源黑体、JetBrains Mono：SIL OFL 1.1；
-  - 各字体的版权人、来源与许可文本见 [`font/README.md`](font/README.md) 与 `font/` 中的 `GPLv3-Fandol.txt`、`OFL-*.txt`；
+- **字体**：全部为自由字体（SIL OFL 1.1），可随模板公开分发与使用——
+  - 中文：思源宋体、思源黑体、霞鹜文楷、朱雀仿宋；
+  - 西文与代码：Source Sans 3、STIX Two、XITS Math、JetBrains Mono；
+  - 各字体的版权人、来源与许可文本见 [`font/README.md`](font/README.md) 与 `font/` 中的 `OFL-*.txt`；
 - **参考文献样式**：`gbt7714-2025-*.bst` 版权归原作者 Zeping Lee（LPPL 1.3c+），声明见文件头部，本项目未做修改；
 - 使用本模板排版的书稿，其版权完全归作者所有，不受上述任何许可约束。

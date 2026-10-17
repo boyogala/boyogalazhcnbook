@@ -26,4 +26,7 @@ missfont.log             # XeTeX 缺字时生成的记录文件
 Thumbs.db
 *~
 
+# 字体整理暂存: 待人工核对后删除的素材 (不入库)
+filedeleted/
+
 # 说明: main.pdf 是模板的示例输出, 按需保留入库

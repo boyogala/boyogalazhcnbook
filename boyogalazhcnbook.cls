@@ -6,7 +6,7 @@
 %%
 
 %---------- 定义的新的Class ----------
-\ProvidesClass{boyogalazhcnbook}[2026/10/16 v1.1]
+\ProvidesClass{boyogalazhcnbook}[2026/10/17 v1.2]
 \NeedsTeXFormat{LaTeX2e}
 
 %---------- 定义的新的Options ----------
@@ -47,10 +47,10 @@
 \PassOptionsToPackage{no-math}{fontspec}
 
 %---------- 静默无碍排版的信息性警告 ----------
-% 1) Fandol 字体: xeCJK 默认对所有中文字体请求 OpenType 脚本 "CJK" (fontspec 将其映射
-%    为 hani 脚本, 并按 XeTeX 枚举的字体脚本表核对); Fandol 字体经此枚举无匹配脚本,
-%    fontspec 遂给出 "does not contain requested Script" 警告, 并自动回退为默认脚本,
-%    不影响排版与字形.
+% 1) 朱雀仿宋的字表未登记 OpenType 脚本 "CJK" (xeCJK 默认对所有中文字体请求该脚本,
+%    fontspec 将其映射为 hani 并按 XeTeX 枚举的字体脚本表核对); fontspec 遂给出
+%    "does not contain requested Script" 警告, 并自动回退为默认脚本, 不影响排版与字形
+%    (其余中文字体均含该脚本, 不触发此警告).
 % 2) mathtools 与 unicode-math 并用: unicode-math 载入后会给出两条提示 — 冒号类命令
 %    (如 \coloneqq) 改用 unicode-math 版本, 上下花括号命令沿用 mathtools 版本 — 均为
 %    宏包官方设计中的正常行为, 不影响排版.

@@ -13,30 +13,34 @@
 %    字族: cnsong / cnhei / cnkai / cnfs / cncover
 % ===============================================================
 
-%----- 中文字体: Fandol 字族 (取自 font/) -----
+%----- 中文字体: 思源宋体 / 思源黑体 / 霞鹜文楷 / 朱雀仿宋 (全部取自 font/) -----
 % 文类以 fontset=none 载入, 中文完全在此设置; 字体族取名 cnsong/cnhei/cnfs/cnkai,
 % 不与 ctex 预置名冲突 (避免字体重定义警告), 字体文件均取自 font/ 目录.
-\setCJKmainfont{FandolSong-Regular.otf}[        % 正文: 宋体
+\setCJKmainfont{NotoSerifCJKsc-Regular.otf}[    % 正文: 宋体 (思源宋体)
     Path = font/,
-    BoldFont = FandolSong-Bold.otf,             % 粗体: 宋体粗
-    ItalicFont = FandolKai-Regular.otf]         % 斜体: 楷体
-\setCJKsansfont{FandolHei-Regular.otf}[         % 无衬线: 黑体
+    BoldFont = NotoSerifCJKsc-Bold.otf,         % 粗体: 思源宋体粗
+    ItalicFont = LXGWWenKai-Regular.ttf]        % 斜体: 楷体 (霞鹜文楷)
+\setCJKsansfont{SourceHanSansCN-Regular.otf}[   % 无衬线: 黑体 (思源黑体)
     Path = font/,
-    BoldFont = FandolHei-Bold.otf]
-\setCJKmonofont{FandolFang-Regular.otf}[        % 等宽: 仿宋
+    BoldFont = SourceHanSansCN-Bold.otf]
+\setCJKmonofont{ZhuqueFangsong-Regular.ttf}[    % 等宽: 仿宋 (朱雀仿宋)
     Path = font/]
 % 中文字体族与中文命令: \songti \heiti \fangsong \kaishu 均指向本地字体文件
 % (fontset=none 时 ctex 不提供这四个命令, 用 \providecommand + \renewcommand 定义)
-\setCJKfamilyfont{cnsong}{FandolSong-Regular.otf}[Path = font/, BoldFont = FandolSong-Bold.otf]
-\setCJKfamilyfont{cnhei}{FandolHei-Regular.otf}[Path = font/, BoldFont = FandolHei-Bold.otf]
-\setCJKfamilyfont{cnfs}{FandolFang-Regular.otf}[Path = font/]
-\setCJKfamilyfont{cnkai}{FandolKai-Regular.otf}[Path = font/]
+\setCJKfamilyfont{cnsong}{NotoSerifCJKsc-Regular.otf}[Path = font/, BoldFont = NotoSerifCJKsc-Bold.otf]
+\setCJKfamilyfont{cnhei}{SourceHanSansCN-Regular.otf}[Path = font/, BoldFont = SourceHanSansCN-Bold.otf]
+\setCJKfamilyfont{cnfs}{ZhuqueFangsong-Regular.ttf}[Path = font/]
+\setCJKfamilyfont{cnkai}{LXGWWenKai-Regular.ttf}[Path = font/]
 \providecommand\songti{}\renewcommand\songti{\CJKfamily{cnsong}}
 \providecommand\heiti{}\renewcommand\heiti{\CJKfamily{cnhei}}
 \providecommand\fangsong{}\renewcommand\fangsong{\CJKfamily{cnfs}}
 \providecommand\kaishu{}\renewcommand\kaishu{\CJKfamily{cnkai}}
+% 生僻字回退: 朱雀仿宋为官方"技术预览版", 缺字时自动改用 font/ 中的思源宋体补足;
+% 回退字体同样只取自 font/ 目录, 编译仍不依赖系统字体 (思源宋体自身缺字时才显示空缺).
+\xeCJKenablefallback
+\setCJKfallbackfamilyfont{cnfs}[Path = font/]{NotoSerifCJKsc-Regular.otf}
 
-%----- 封面字体: 思源黑体 (展示用, 比 Fandol 黑体更现代; 供文类封面使用) -----
+%----- 封面字体: 思源黑体 (展示用; 供文类封面使用) -----
 \setCJKfamilyfont{cncover}{SourceHanSansCN-Regular.otf}[Path = font/, BoldFont = SourceHanSansCN-Bold.otf]
 \renewcommand{\coverfont}{\CJKfamily{cncover}}   % 封面标题/副标题/作者均使用该字体
 
@@ -47,9 +51,12 @@
     BoldFont = STIXTwoText-Bold.ttf,
     ItalicFont = STIXTwoText-Italic.ttf,
     BoldItalicFont = STIXTwoText-BoldItalic.ttf]
-% 无衬线: 思源黑体 (其西文字形为 Source Sans, 干净现代)
-\setsansfont{SourceHanSansCN-Regular.otf}[
-    Path = font/, BoldFont = SourceHanSansCN-Bold.otf]
+% 无衬线: Source Sans 3 (Adobe 开源字体, 与思源黑体的西文字形同源设计)
+\setsansfont{SourceSans3-Regular.otf}[
+    Path = font/,
+    BoldFont = SourceSans3-Bold.otf,
+    ItalicFont = SourceSans3-It.otf,
+    BoldItalicFont = SourceSans3-BoldIt.otf]
 % 等宽 (代码/命令行): JetBrains Mono
 \setmonofont{JetBrainsMono-Regular.ttf}[
     Path = font/,

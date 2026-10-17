@@ -7,9 +7,9 @@
 
 - **项目**：boyogalazhcnbook —— 中文书籍 LaTeX 模板（基于 ctexbook 文类，XeLaTeX 编译）；
 - **仓库**：<https://github.com/boyogala/boyogalazhcnbook>；
-- **版本**：v1.1（文类日期 2026/10/16）；示例书 28 页，完整编译 0 错误、无宏包警告（仅 3 处既有 Underfull 提示）；
-- **字体**：完全自足——全部 18 个字体文件（约 54 MB）随仓库分发，编译不依赖系统字体与任何第三方字体集；
-- **许可**：模板代码 MIT；字体为 GPL v3（附字体嵌入例外）或 SIL OFL 1.1；参考文献样式 LPPL 1.3c+（详见第 6 节）。
+- **版本**：v1.2（文类日期 2026/10/17）；示例书 29 页，完整编译 0 错误、无宏包警告（仅 5 处 Underfull 提示）；
+- **字体**：完全自足——全部 20 个字体文件（约 102 MB）随仓库分发，编译不依赖系统字体与任何第三方字体集；
+- **许可**：模板代码 MIT；字体全部为自由字体（SIL OFL 1.1）；参考文献样式 LPPL 1.3c+（详见第 6 节）。
 
 ## 2. 来源与更名
 
@@ -18,7 +18,7 @@
 - 依 MIT 许可要求保留原始版权声明：`LICENSE` 中同时列有原项目作者与 boyogala（博优旮旯）的版权；
 - `README.md`「致谢」、`boyogalazhcnbook.cls` 与 `boyogalazhcnbooksetting.tex` 文件头部均注明来源与原作者。
 
-## 3. 处理过程（19 次提交，按时间顺序）
+## 3. 处理过程（按时间顺序）
 
 | 提交 | 日期 | 主要工作 |
 | --- | --- | --- |
@@ -42,39 +42,47 @@
 | `e54a725` | 2026-10-17 | 字体族更名 cnsong/cnhei/cnfs/cnkai 并独立定义，消除 xeCJK 重定义警告 |
 | `285c1e3` | 2026-10-17 | 字体体系完全自足：删除 mathfont 备用选项，字体命令与字族全部项目自定 |
 
-随后一次「文档与版权完善」提交完成本文件、README 详细化与字体版权说明；项目作者新增的章节内容与 `main.pdf` 已另行提交（`863946a`）。
+随后一次「文档与版权完善」提交完成本文件、README 详细化与字体版权说明；项目作者新增的章节内容与 `main.pdf` 已另行提交（`863946a`），状态同步提交为 `09833d9`。
+
+2026-10-17：**v1.2 字体体系全面替换**——Fandol 与 GPL 字体全部退役，中文改用**思源宋体**（正文）/ **思源黑体**（标题）/ **霞鹜文楷**（楷体）/ **朱雀仿宋**（仿宋，缺字自动回退思源宋体），西文无衬线改用 **Source Sans 3**；字体共 20 个文件（约 102 MB），全部为 SIL OFL 1.1；示例书重排为 29 页（0 错误、0 警告、5 处 Underfull）；按项目作者要求，本次提交由作者手动完成，废弃素材归入 `filedeleted/`（不入库）待作者核对后删除。
 
 ## 4. 字体体系设计（核心）
 
 - 文类以 `fontset=none` 载入 ctexbook：**不使用任何 ctex 字体集**，中文字体完全由项目自行定义；
 - 字体族命名 `cnsong` / `cnhei` / `cnfs` / `cnkai` / `cncover`，避免与 ctex 预置名冲突（消除字体重定义警告）；
 - 中文命令 `\songti`、`\heiti`、`\fangsong`、`\kaishu`、`\coverfont` 全部由本项目定义，只指向 `font/` 中的字体文件；
-- 西文（STIX Two Text / 思源黑体 / JetBrains Mono）与数学（STIX Two Math，粗体用 XITS Math Bold）同样取自 `font/`；
+- 中文字体（v1.2 起）：正文宋体＝思源宋体、标题黑体＝思源黑体、楷体＝霞鹜文楷（兼正文斜体映射）、仿宋＝朱雀仿宋；
+- 西文（正文 STIX Two Text、无衬线 Source Sans 3、代码 JetBrains Mono）与数学（STIX Two Math，粗体用 XITS Math Bold）同样取自 `font/`；
+- 生僻字回退：朱雀仿宋（技术预览版，13,805 字形）缺字时自动改用 `font/` 内的思源宋体补足——经专项对比测试验证（未启用回退时生僻字显示为缺字符方框，启用后正常显示）；启用命令为 `\xeCJKenablefallback`；
 - 已删除 `mathfont` 备用类选项（原会调用 TeX Live 字体）——项目不引用、也不依赖 `font/` 之外的任何字体。
 
 ## 5. 验证方法（可复现）
 
 1. 清空重编译：`latexmk -C && latexmk`；
-2. 检查日志：0 处 `!` 错误、无宏包警告、仅 3 处既有 Underfull；共 28 页；
-3. 保真验证：与重构前基线逐页像素对比（96 dpi，ImageMagick `compare -metric AE`）为 **0 差异**，
-   `pdftotext` 文本层完全一致——全部重构未改变任何排版结果。
+2. 检查日志：0 处 `!` 错误、无宏包警告、仅 5 处 Underfull（字体度量变化引起的分页差异）；共 29 页；
+3. 保真验证（重构阶段，字体未变时）：与重构前基线逐页像素对比（96 dpi，ImageMagick `compare -metric AE`）为 **0 差异**，
+   `pdftotext` 文本层完全一致——当时全部重构未改变任何排版结果；字体替换后版式按新字体度量自然重排；
+4. v1.2 字体替换专项验证：全量重编译 0 错误 0 警告；封面、目录、页眉、正文逐项目视核对无缺字；
+   与旧版（v1.1）日志对照：仅 Underfull 由 3 处增至 5 处，无新增错误或警告。
 
 ## 6. 版权与许可处理
 
 - **模板代码**：MIT 许可（`LICENSE`），保留 zhbook 原作者 Liutao Tian 的版权声明，并加入 boyogala 的版权；
-- **字体**：全部为自由字体，可随模板公开分发；版权人、版本与来源明细见 [`font/README.md`](font/README.md)：
-  - Fandol：GPL v3，**附加字体嵌入例外**（上游说明原文：“These fonts's licensing is GPL + GPL font exception.”）——在文档中使用并嵌入这些字体不会使书稿受 GPL 约束；字体文件与 TeX Live / CTAN 上游逐字节一致，未作修改；
-  - STIX Two、XITS Math、思源黑体、JetBrains Mono：SIL OFL 1.1（字形与名称未改动）；
-  - 许可全文随附于 `font/`：`GPLv3-Fandol.txt`、`OFL-*.txt`（四份）；
+- **字体**：全部为自由字体（SIL OFL 1.1），可随模板公开分发；版权人、版本与来源明细见 [`font/README.md`](font/README.md)：
+  - 中文：思源宋体 Noto Serif CJK SC 2.003、思源黑体 Source Han Sans CN 2.004、霞鹜文楷 LXGW WenKai 1.530、朱雀仿宋 Zhuque Fangsong 0.212（技术预览）；
+  - 西文 / 数学 / 代码：Source Sans 3 3.052、STIX Two 2.13、XITS Math 1.302、JetBrains Mono 2.304；
+  - 字体文件与上游发布逐字节一致，未作修改；许可全文随附于 `font/`：`OFL-*.txt`（八份）；
+  - 曾用的 Fandol 字体（GPL v3 + 字体嵌入例外）自 v1.2 起不再随模板分发（改用覆盖更全的思源字族等）。
 - **参考文献样式**：`gbt7714-2025-*.bst` 来自 Zeping Lee 的 [gbt7714-bibtex-style](https://github.com/zepinglee/gbt7714-bibtex-style) v3.1.1（LPPL 1.3c+，版权归原作者，文件头声明完整，未做修改）；
 - **素材**：示例插图 `figures/image1,2` 沿用自原项目（MIT 许可）；封面 logo 与前言二维码为项目作者素材；`docs/images/` 为模板输出截图；
 - **使用者提示**：用本模板排版的书稿，其版权完全归作者所有，不受上述任何许可约束。
 
 ## 7. 当前状态与后续步骤
 
-- 分支 `main`；远程仓库 <https://github.com/boyogala/boyogalazhcnbook> 已配置并完成推送，本地与远程 `main` 同步于 `863946a`（含项目作者最新正文与示例输出 `main.pdf`）；
-- 日常更新：编辑后用 `git add -A && git commit -m "..." && git push` 推送即可；
-- 仓库设置：描述已设置；Topics 与 v1.1 Release 待发布（通过 GitHub 网页或授权后的接口完成）。
+- 分支 `main`；远程仓库 <https://github.com/boyogala/boyogalazhcnbook>，本地 v1.1 快照（`09833d9`）与远程同步；
+- **v1.2 字体体系替换已在本地完成并通过完整验证**（0 错误、0 警告、29 页）——按项目作者要求，提交与推送由作者手动完成；
+- 改造整理出的废弃素材存放于 `filedeleted/`（已被 `.gitignore` 忽略，不入库），由项目作者核对后手动删除；
+- 仓库设置：描述已设置；Topics 与 v1.2 Release 待发布（通过 GitHub 网页或授权后的接口完成）。
 
 ## 8. 关键文件速览
 
@@ -85,7 +93,7 @@
 | `main.tex` | 主文件：封面信息与章节组织 |
 | `chapters/` | 各章源文件（示例即教程：第 2、4、5 章演示环境、插图与表格） |
 | `reference.bib`、`gbt7714-2025-*.bst` | 参考文献库与 GB/T 7714—2025 样式 |
-| `font/` | 18 个字体文件 + 5 份许可文本 + 版权清单（`font/README.md`） |
+| `font/` | 20 个字体文件 + 8 份 OFL 许可文本 + 版权清单（`font/README.md`） |
 | `README.md` | 项目介绍与完整使用说明（含字体设置详解） |
 | `LICENSE` | MIT 许可（双版权声明） |
 | `whatwedid.md` | 本文件：处理与交接说明 |
