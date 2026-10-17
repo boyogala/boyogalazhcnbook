@@ -6,6 +6,10 @@
 % ===============================================================
 % ===============================================================
 %  一、字体设置
+%  模板自带完整字体方案: 全部字体取自仓库 font/ 目录, 不依赖系统字体,
+%  也不使用任何第三方字体集; 中文命令与字体族均在本节定义 —
+%    命令: \songti(宋) \heiti(黑) \kaishu(楷) \fangsong(仿) \coverfont(封面)
+%    字族: cnsong / cnhei / cnkai / cnfs / cncover
 % ===============================================================
 
 %----- 中文字体: Fandol 字族 (取自 font/) -----
@@ -61,13 +65,14 @@
 % 证毕符号: 改用数学字体自带的白色方格, 避免使用会回退到 AMS 字体的 \square
 \renewcommand{\qedsymbol}{\ensuremath{\mdlgwhtsquare}}
 
-% 如需更换字体: 把字体文件放入 font/ 目录 (或其他自建子目录), 再修改上面相应设置即可.
+% 如需更换字体: 把字体文件放入 font/ 目录 (或其他自建子目录), 再修改上面相应设置即可;
+% 模板只从上述路径读取字体, 不会调用 font/ 之外的任何字体.
 
 % ===============================================================
 %  二、常用宏包
 % ===============================================================
 % 说明: 模板所需宏包大都已由文类 boyogalazhcnbook.cls 载入, 无需在此重复:
-%   数学: amsmath、amsthm、mathtools、amssymb、mathrsfs (数学字体由第一节经 unicode-math 配置);
+%   数学: amsmath、amsthm、mathtools、amssymb (数学字体由第一节经 unicode-math 配置);
 %   图表: graphicx、caption、tabularx (含 L/C/R/P 列格式)、booktabs、longtable、multirow、makecell、float、multicol;
 %   算法: algorithm、algpseudocode; 代码: listings (样式已由文类配置, 可直接使用 lstlisting 环境).
 % 下面只列出需要在本文件中载入的宏包; 用到其它宏包时在此追加即可.

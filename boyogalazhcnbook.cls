@@ -16,10 +16,9 @@
 \DeclareOption{twoside}{\PassOptionsToClass{twoside}{ctexbook}}      % 双面排版
 
 %--- 自定义"键=值"类选项 (未匹配的选项原样透传给 ctexbook) ---
-%    mathfont=lmodern/xits/termes/stix2/pagella  备用数学字体 (取自 TeX Live 的字体);
-%        默认数学字体由 boyogalazhcnbooksetting.tex 配置 (项目自带字体), 会覆盖此选项
-%    bindingoffset=1cm                           装订线宽度 (默认: 0pt, 不预留)
-\def\boyogalazhcnbook@mathfont{}          % 空 = 不改变默认数学字体
+%    bindingoffset=1cm   装订线宽度 (默认: 0pt, 不预留)
+% 说明: 模板字体 (含数学字体) 全部取自项目自带 font/ 目录, 由 boyogalazhcnbooksetting.tex
+%       统一配置, 不提供也不依赖任何第三方字体选项.
 \def\boyogalazhcnbook@bindingoffset{0pt}  % 装订线宽度
 \DeclareOption*{%
     % 在选项后追加哨兵"==", 按第一个"="拆分 (无"="的选项也能安全解析):
@@ -30,14 +29,11 @@
 \def\boyogalazhcnbook@parsekv#1=#2\@nil{%
     \def\boyogalazhcnbook@tempkey{#1}%
     \boyogalazhcnbook@stripval#2\@nil
-    \ifdefstring{\boyogalazhcnbook@tempkey}{mathfont}{%
-        \let\boyogalazhcnbook@mathfont\boyogalazhcnbook@tempval
-    }{%
     \ifdefstring{\boyogalazhcnbook@tempkey}{bindingoffset}{%
         \let\boyogalazhcnbook@bindingoffset\boyogalazhcnbook@tempval
     }{%
         \PassOptionsToClass{\CurrentOption}{ctexbook}% 其他选项透传
-    }}%
+    }%
 }
 % 去掉值末尾的哨兵"==" (无值选项的 #2 恰为"==", 去掉后为空)
 \def\boyogalazhcnbook@stripval#1==\@nil{\def\boyogalazhcnbook@tempval{#1}}
@@ -86,32 +82,9 @@
 %---------- 常用宏包 ----------
 \RequirePackage{amsmath,amsthm}  % 数学公式与定理
 \RequirePackage{mathtools}       % amsmath 增强 (dcases、cases*、\coloneqq、\DeclarePairedDelimiter 等)
-% 校验 mathfont 取值: 未知值给出警告并回退为默认数学字体
-\ifdefstring{\boyogalazhcnbook@mathfont}{lmodern}{}{%
-\ifdefstring{\boyogalazhcnbook@mathfont}{xits}{}{%
-\ifdefstring{\boyogalazhcnbook@mathfont}{termes}{}{%
-\ifdefstring{\boyogalazhcnbook@mathfont}{stix2}{}{%
-\ifdefstring{\boyogalazhcnbook@mathfont}{pagella}{}{%
-    \ifx\boyogalazhcnbook@mathfont\@empty\else
-        \ClassWarningNoLine{boyogalazhcnbook}{未知的 mathfont 值: \boyogalazhcnbook@mathfont; 将使用默认数学字体. 可选: lmodern/xits/termes/stix2/pagella}%
-        \def\boyogalazhcnbook@mathfont{}% 回退为默认
-    \fi
-}}}}}
-\ifx\boyogalazhcnbook@mathfont\@empty
-    %--- 默认: 仅载入基础符号宏包; 正式数学字体在 boyogalazhcnbooksetting.tex 中用 unicode-math 配置 (会覆盖) ---
-    \RequirePackage{amssymb}   % AMS 数学符号 (花体字母 \mathscr 由 unicode-math 的数学字体提供)
-\else
-    %--- unicode-math 模式: 使用 OpenType 数学字体 (XeLaTeX 下推荐的方式) ---
-    % 各字体按 TeX Live 内的文件名载入, 确保不同系统上都能找到;
-    % 其中仅 XITS 自带粗体数学字形 (BoldFont), 其余字体的粗体数学自动回退为常规字形.
-    \RequirePackage{unicode-math}
-    \ifdefstring{\boyogalazhcnbook@mathfont}{lmodern}{\setmathfont{latinmodern-math.otf}}{%
-    \ifdefstring{\boyogalazhcnbook@mathfont}{xits}{\setmathfont{XITSMath-Regular.otf}[BoldFont=XITSMath-Bold.otf]}{%
-    \ifdefstring{\boyogalazhcnbook@mathfont}{termes}{\setmathfont{texgyretermes-math.otf}}{%
-    \ifdefstring{\boyogalazhcnbook@mathfont}{stix2}{\setmathfont{STIXTwoMath-Regular.otf}}{%
-    \ifdefstring{\boyogalazhcnbook@mathfont}{pagella}{\setmathfont{texgyrepagella-math.otf}}{%
-    }}}}}%
-\fi
+% 基础数学符号宏包; 正式数学字体由 boyogalazhcnbooksetting.tex 经 unicode-math
+% 从项目自带 font/ 目录配置 (会接替此处符号宏包的字体设定)
+\RequirePackage{amssymb}  % AMS 数学符号 (花体字母 \mathscr 由 unicode-math 的数学字体提供)
 \RequirePackage{graphicx}                % 插图
 \RequirePackage{tabularx}                % 宽度自适应的表格
 \RequirePackage{booktabs}                % 三线表

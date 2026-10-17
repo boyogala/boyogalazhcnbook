@@ -27,9 +27,9 @@
 - 参考文献符合国家标准 GB/T 7714—2025，顺序编码制与著者-出版年制均可（BibTeX，样式文件随附）；
 - 中文排版细节：段首缩进 2 字（含列表项与引文内段落）、段间距与行距、章首页页码、页眉等；
 - 设置分离：版式集中于 `boyogalazhcnbook.cls`，字体、宏包、参考文献等全局设置集中于 `boyogalazhcnbooksetting.tex`，便于按需调整；
-- 可选类选项：`bindingoffset` 装订线、`print` 打印模式、`openright` 奇数页起章、`mathfont` 备用数学字体等；
+- 可选类选项：`bindingoffset` 装订线、`print` 打印模式、`openright` 奇数页起章等；
 - 基于 XeLaTeX + latexmk 一键编译；各章用 `\include` 组织，支持 `\includeonly` 只编译修改的章节；
-- 自带字体方案：中文、西文、数学与代码字体全部取自仓库 `font/` 目录中的字体文件，换电脑编译无需安装任何字体（详见[字体](#字体)一节）。
+- 自带字体方案：中文、西文、数学与代码字体全部取自仓库 `font/` 目录中的字体文件，自带完整中文字体命令，不依赖系统字体与第三方字体集，换电脑编译无需安装任何字体（详见[字体](#字体)一节）。
 
 ## 快速开始
 
@@ -67,16 +67,14 @@
 | `twoside` / `oneside` | — | 双面（默认）/ 单面排版 |
 | `zihao` | `-4`、`5` 等 | 正文字号，默认小四号（`zihao=-4`） |
 | `fontset` | — | 固定为 `none`：中文字体全部由 `boyogalazhcnbooksetting.tex` 指定，无需系统字体集 |
-| `mathfont` | `lmodern`、`xits`、`termes`、`stix2`、`pagella` | 备用数学字体（取自 TeX Live）；默认数学字体由 `boyogalazhcnbooksetting.tex` 配置，会覆盖此选项 |
 | `bindingoffset` | 长度，如 `1cm` | 装订线：双面打印时在页面内侧额外预留的宽度 |
 
-- `mathfont` 为备用选项（使用 TeX Live 自带字体）；默认数学字体由 `boyogalazhcnbooksetting.tex` 配置，会覆盖此选项；
 - 装订线建议配合 `openright` 或 `print` 模式使用，此时前置页从奇数页开始，装订边与物理页一致；
 - ctexbook 文类的其他选项（如 `heading`、`scheme` 等）均可直接传给本模板。
 
 ## 字体
 
-模板的全部字体都直接从仓库 `font/` 目录读取字体文件（不依赖系统安装、不联网），任何电脑上的排版效果一致：
+模板的全部字体都直接从仓库 `font/` 目录读取字体文件（不依赖系统安装、不依赖第三方字体集、不联网），任何电脑上的排版效果一致：
 
 | 用途 | 字体 | 位置 | 许可 |
 | --- | --- | --- | --- |
@@ -90,6 +88,7 @@
 | 数学 | STIX Two Math（粗体数学用同源的 XITS Math Bold） | `font/` | SIL OFL 1.1 |
 | 代码 / 等宽 | JetBrains Mono | `font/` | SIL OFL 1.1 |
 
+- 中文命令（由本模板定义，全部指向 `font/` 中的字体）：`\songti` 宋体、`\heiti` 黑体、`\kaishu` 楷体、`\fangsong` 仿宋、`\coverfont` 封面（思源黑体）；西文与数学无需切换命令，`\rmfamily`、`\sffamily`、`\ttfamily` 与数学环境已直接使用上表字体；
 - 更换或调整字体：编辑 `boyogalazhcnbooksetting.tex` 第一节「字体设置」，把字体文件放入 `font/` 目录即可；
 - STIX Two 是当前主流的现代数学字体（Times 风格的学术修订版），但暂无粗体数学字形，模板用同源的 XITS Math Bold 补足，
   向量、矩阵等的 `\boldsymbol` 可正常加粗；不需要粗体数学时，删去 `boyogalazhcnbooksetting.tex` 中的 `BoldFont = XITSMath-Bold.otf` 一行即可；
