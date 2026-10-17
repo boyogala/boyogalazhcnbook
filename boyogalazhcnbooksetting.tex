@@ -1,6 +1,6 @@
 % !TEX root = main.tex
 % ===============================================================
-%  zhbooksetting.tex —— zhbook 中文书籍模板 全局设置文件
+%  boyogalazhcnbooksetting.tex —— boyogalazhcnbook 中文书籍模板 全局设置文件
 %  由 main.tex 自动载入 (\input); 标题/作者等封面信息仍在 main.tex 中设置.
 %  所有字体均取自本仓库 font/ 目录, 在任何电脑上编译都无需安装字体.
 % ===============================================================
@@ -61,7 +61,7 @@
 % ===============================================================
 %  二、常用宏包
 % ===============================================================
-% 说明: 模板所需宏包大都已由文类 zhbook.cls 载入, 无需在此重复:
+% 说明: 模板所需宏包大都已由文类 boyogalazhcnbook.cls 载入, 无需在此重复:
 %   数学: amsmath、amsthm、mathtools、amssymb、mathrsfs (数学字体由第一节经 unicode-math 配置);
 %   图表: graphicx、caption、tabularx (含 L/C/R/P 列格式)、booktabs、longtable、multirow、makecell、float、multicol;
 %   算法: algorithm、algpseudocode; 代码: listings (样式已由文类配置, 可直接使用 lstlisting 环境).
@@ -102,7 +102,7 @@
 \indexsetup{level=\chapter*}  % 索引标题的级别与章标题一致
 % 提示: 编译环境若禁用了 shell 执行, makeindex 无法自动运行, 索引将为空
 \ifnum\shellescape=0\relax
-    \PackageWarningNoLine{zhbook}{编译时禁用了 shell 执行, 索引将不会自动生成;^^J请允许 shell 执行(TeX Live 默认即允许运行 makeindex), 或手动运行 makeindex main.idx}
+    \PackageWarningNoLine{boyogalazhcnbook}{编译时禁用了 shell 执行, 索引将不会自动生成;^^J请允许 shell 执行(TeX Live 默认即允许运行 makeindex), 或手动运行 makeindex main.idx}
 \fi
 
 % ===============================================================
@@ -111,4 +111,4 @@
 %\setlength{\itemsep}{3pt}           % 列表项之间的额外间距
 %\raggedbottom                       % 允许页面底部参差, 避免出现过大的竖直空白
 %\includepdf[pages=-]{pdfname.pdf}   % 插入外部 PDF 文件 (如自行制作的封面)
-%\includeonly{chapters/chap03}           % 增量编译: 只编译改动过的章节 (首次需完整编译一次)
+%\includeonly{chapters/chap03}       % 增量编译: 只编译改动过的章节 (首次需完整编译一次)

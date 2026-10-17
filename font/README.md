@@ -1,9 +1,9 @@
-# font/ —— zhbook 模板字体目录
+# font/ —— boyogalazhcnbook 模板字体目录
 
-zhbook 模板的全部字体都从本目录**直接读取字体文件**（见 `zhbooksetting.tex` 第一节「字体设置」），
+boyogalazhcnbook 模板的全部字体都从本目录**直接读取字体文件**（见 `boyogalazhcnbooksetting.tex` 第一节「字体设置」），
 编译时不依赖系统安装的字体，任何电脑上的排版效果一致。
 本目录仅存放模板所需的字体文件与许可文件；更换字体时把新文件放入本目录并修改
-`zhbooksetting.tex` 即可。
+`boyogalazhcnbooksetting.tex` 即可。
 
 ## 文件清单（18 个字体文件）
 

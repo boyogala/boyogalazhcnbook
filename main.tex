@@ -1,17 +1,17 @@
 % !TEX program = xelatex
-% zhbook 中文书籍 LaTeX 模板 —— 主文件
+% boyogalazhcnbook 中文书籍 LaTeX 模板 —— 主文件
 % 编译: xelatex -> bibtex -> xelatex -> xelatex (或直接用 latexmk, 见 README.md)
 
 %--- 正文前后没有空白页 (openany: 各章从任意页开始) ---
-\documentclass[openany,twoside,zihao=-4]{zhbook}
+\documentclass[openany,twoside,zihao=-4]{boyogalazhcnbook}
 
 %--- 各章从奇数页开始 (openright: 自动插入空白页, 适合双面打印) ---
-%\documentclass[twoside,openright,zihao=-4]{zhbook}
+%\documentclass[twoside,openright,zihao=-4]{boyogalazhcnbook}
 
 % 说明: zihao=-4 表示正文小四号字; 常用类选项还有:
 %   print               打印模式: 封面等处生成空白页, 并隐藏链接颜色
 %   mathfont=xits       备用数学字体: lmodern/xits/termes/stix2/pagella (取自 TeX Live);
-%                       默认数学字体已由 zhbooksetting.tex 配置 (项目自带字体), 会覆盖此选项
+%                       默认数学字体已由 boyogalazhcnbooksetting.tex 配置 (项目自带字体), 会覆盖此选项
 %   bindingoffset=1cm   装订线宽度: 双面打印/胶装时在页面内侧额外留白
 
 % 书籍信息设置 (用于生成封面)
@@ -28,10 +28,10 @@
 \extrainfo{\fbox{$\mathcal{PL}$} \\[8pt] 出版社}
 
 
-%----- 全局设置: 字体 / 宏包 / 参考文献 / 索引等 (详见 zhbooksetting.tex) -----
+%----- 全局设置: 字体 / 宏包 / 参考文献 / 索引等 (详见 boyogalazhcnbooksetting.tex) -----
 % 所有字体均取自本仓库 font/ 目录, 在任何电脑上编译都无需安装字体;
-% 调整字体、宏包等设置时, 直接修改 zhbooksetting.tex 即可.
-\input{zhbooksetting.tex}
+% 调整字体、宏包等设置时, 直接修改 boyogalazhcnbooksetting.tex 即可.
+\input{boyogalazhcnbooksetting.tex}
 
 
 \begin{document}

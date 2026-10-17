@@ -1,4 +1,4 @@
-# zhbook
+# boyogalazhcnbook
 
 **中文书籍 LaTeX 模板**（基于 ctexbook 文类，使用 XeLaTeX 编译）
 
@@ -16,6 +16,7 @@
 - [目录结构](#目录结构)
 - [效果预览](#效果预览)
 - [常见问题](#常见问题)
+- [致谢](#致谢)
 - [许可协议](#许可协议)
 
 ## 特性
@@ -25,7 +26,7 @@
 - 常用排版：算法与伪代码（algorithm、algpseudocode）、代码（listings，中文注释可正常排版）、子图与并排图（subcaption、minipage）、绘图与流程图（tikz）、多栏排版（multicol）、三线表（booktabs）、索引（imakeidx）；
 - 参考文献符合国家标准 GB/T 7714—2025，顺序编码制与著者-出版年制均可（BibTeX，样式文件随附）；
 - 中文排版细节：段首缩进 2 字（含列表项与引文内段落）、段间距与行距、章首页页码、页眉等；
-- 设置分离：版式集中于 `zhbook.cls`，字体、宏包、参考文献等全局设置集中于 `zhbooksetting.tex`，便于按需调整；
+- 设置分离：版式集中于 `boyogalazhcnbook.cls`，字体、宏包、参考文献等全局设置集中于 `boyogalazhcnbooksetting.tex`，便于按需调整；
 - 可选类选项：`bindingoffset` 装订线、`print` 打印模式、`openright` 奇数页起章、`mathfont` 备用数学字体等；
 - 基于 XeLaTeX + latexmk 一键编译；各章用 `\include` 组织，支持 `\includeonly` 只编译修改的章节；
 - 自带字体方案：中文、西文、数学与代码字体全部取自仓库 `font/` 目录中的字体文件，换电脑编译无需安装任何字体（详见[字体](#字体)一节）。
@@ -35,10 +36,10 @@
 **注意：推荐安装 TeX Live 发行版（或 MiKTeX），并且需要使用 XeLaTeX 编译！**
 
 ```tex
-\documentclass[openany,twoside,zihao=-4]{zhbook}  % 本模板推荐的默认选项
+\documentclass[openany,twoside,zihao=-4]{boyogalazhcnbook}  % 本模板推荐的默认选项
 ```
 
-将本仓库作为起点使用即可：`zhbook.cls`（文类，版式主体）、`zhbooksetting.tex`（全局设置：字体、宏包、参考文献与索引）、`main.tex`（主文件，书籍信息与章节组织）、`chapters/`（各章节源文件）、`font/`（模板所用字体）、`reference.bib`（参考文献库）与两个 `gbt7714-2025-*.bst` 样式文件放在同一目录，修改封面信息与内容后用 latexmk 编译（见下一节）。
+将本仓库作为起点使用即可：`boyogalazhcnbook.cls`（文类，版式主体）、`boyogalazhcnbooksetting.tex`（全局设置：字体、宏包、参考文献与索引）、`main.tex`（主文件，书籍信息与章节组织）、`chapters/`（各章节源文件）、`font/`（模板所用字体）、`reference.bib`（参考文献库）与两个 `gbt7714-2025-*.bst` 样式文件放在同一目录，修改封面信息与内容后用 latexmk 编译（见下一节）。
 
 ## 封面信息
 
@@ -55,7 +56,7 @@
 | `\bioinfo{键}{值}` | 作者的其他信息（可选，显示为「键：值」） |
 | `\extrainfo{...}` | 封面底部附加信息，如出版社标志与名称（可选） |
 
-封面采用现代三栏式布局：上层为书名与副标题，中层为作者与封面图片，下层为座右铭；同时设置 `\motto` 与 `\date` 时，封面优先显示座右铭（日期与版本不再出现）。点缀色与封面字体可分别在 `zhbook.cls`（`zhbookgreen`）与 `zhbooksetting.tex`（`zhcover` 字族）中修改。
+封面采用现代三栏式布局：上层为书名与副标题，中层为作者与封面图片，下层为座右铭；同时设置 `\motto` 与 `\date` 时，封面优先显示座右铭（日期与版本不再出现）。点缀色与封面字体可分别在 `boyogalazhcnbook.cls`（`boyogalagreen`）与 `boyogalazhcnbooksetting.tex`（`zhcover` 字族）中修改。
 
 ## 类选项
 
@@ -65,11 +66,11 @@
 | `openany` / `openright` | — | 各章从任意页（默认）/ 奇数页开始 |
 | `twoside` / `oneside` | — | 双面（默认）/ 单面排版 |
 | `zihao` | `-4`、`5` 等 | 正文字号，默认小四号（`zihao=-4`） |
-| `fontset` | `windows`、`mac`、`fandol` 等 | 中文字体集（模板默认 `fandol`；实际字体统一由 `zhbooksetting.tex` 指定） |
-| `mathfont` | `lmodern`、`xits`、`termes`、`stix2`、`pagella` | 备用数学字体（取自 TeX Live）；默认数学字体由 `zhbooksetting.tex` 配置，会覆盖此选项 |
+| `fontset` | `windows`、`mac`、`fandol` 等 | 中文字体集（模板默认 `fandol`；实际字体统一由 `boyogalazhcnbooksetting.tex` 指定） |
+| `mathfont` | `lmodern`、`xits`、`termes`、`stix2`、`pagella` | 备用数学字体（取自 TeX Live）；默认数学字体由 `boyogalazhcnbooksetting.tex` 配置，会覆盖此选项 |
 | `bindingoffset` | 长度，如 `1cm` | 装订线：双面打印时在页面内侧额外预留的宽度 |
 
-- `mathfont` 为备用选项（使用 TeX Live 自带字体）；默认数学字体由 `zhbooksetting.tex` 配置，会覆盖此选项；
+- `mathfont` 为备用选项（使用 TeX Live 自带字体）；默认数学字体由 `boyogalazhcnbooksetting.tex` 配置，会覆盖此选项；
 - 装订线建议配合 `openright` 或 `print` 模式使用，此时前置页从奇数页开始，装订边与物理页一致；
 - ctexbook 文类的其他选项（如 `fontset`、`heading` 等）均可直接传给本模板。
 
@@ -89,9 +90,9 @@
 | 数学 | STIX Two Math（粗体数学用同源的 XITS Math Bold） | `font/` | SIL OFL 1.1 |
 | 代码 / 等宽 | JetBrains Mono | `font/` | SIL OFL 1.1 |
 
-- 更换或调整字体：编辑 `zhbooksetting.tex` 第一节「字体设置」，把字体文件放入 `font/` 目录即可；
+- 更换或调整字体：编辑 `boyogalazhcnbooksetting.tex` 第一节「字体设置」，把字体文件放入 `font/` 目录即可；
 - STIX Two 是当前主流的现代数学字体（Times 风格的学术修订版），但暂无粗体数学字形，模板用同源的 XITS Math Bold 补足，
-  向量、矩阵等的 `\boldsymbol` 可正常加粗；不需要粗体数学时，删去 `zhbooksetting.tex` 中的 `BoldFont = XITSMath-Bold.otf` 一行即可；
+  向量、矩阵等的 `\boldsymbol` 可正常加粗；不需要粗体数学时，删去 `boyogalazhcnbooksetting.tex` 中的 `BoldFont = XITSMath-Bold.otf` 一行即可；
 - 上表字体均为自由字体（GPL v3 / SIL OFL 1.1），可随模板公开分发；如替换为其他字体（尤其商业字体），请自行确认授权。
 
 ## 编译方法
@@ -141,8 +142,8 @@ latexmk -c         # 清理中间文件
 ## 目录结构
 
 ```text
-zhbook.cls                    文类文件 (版式主体)
-zhbooksetting.tex             全局设置 (字体、宏包、参考文献与索引)
+boyogalazhcnbook.cls          文类文件 (版式主体)
+boyogalazhcnbooksetting.tex   全局设置 (字体、宏包、参考文献与索引)
 main.tex                      主文件 (书籍信息与章节组织)
 chapters/                     各章节源文件
 ├── preface.tex               前言
@@ -193,7 +194,7 @@ makefiles.sh / makefiles.bat  编译/清理脚本
 
 **编译时报找不到字体？**
 模板的全部字体都在 `font/` 目录中，无需在系统里安装字体；请确认 `font/` 目录完整、并与
-`main.tex` 位于同一目录（单独分发/下载时容易遗漏）。若自行改过 `zhbooksetting.tex` 中的
+`main.tex` 位于同一目录（单独分发/下载时容易遗漏）。若自行改过 `boyogalazhcnbooksetting.tex` 中的
 字体文件名，请对照 `font/` 下的实际文件核对。
 
 **索引是空的？**
@@ -202,7 +203,14 @@ makefiles.sh / makefiles.bat  编译/清理脚本
 
 **要打印装订成书？**
 使用 `print` 模式并设置装订线，例如：
-`\documentclass[print,openright,zihao=-4,bindingoffset=1cm]{zhbook}`。
+`\documentclass[print,openright,zihao=-4,bindingoffset=1cm]{boyogalazhcnbook}`。
+
+## 致谢
+
+本模板最初基于 Liutao Tian 的 [zhbook](https://github.com/andy123t/zhbook) 项目开发。在此基础上，
+本项目经过系统性的重构与完善——自带全套字体（无需安装）、GB/T 7714—2025 参考文献样式、
+更丰富的数学/绘图/多栏排版支持、更细致的排版处理——已发展成为独立的中文书籍模板体系。
+谨向原始项目及其作者致以诚挚的谢意。
 
 ## 许可协议
 

@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 #
-# zhbook 编译脚本 (基于 latexmk)
+# boyogalazhcnbook 编译脚本 (基于 latexmk)
 #
 # 用法:
 #   ./makefiles.sh            编译 main.tex (自动处理 bibtex/makeindex 与多遍编译)

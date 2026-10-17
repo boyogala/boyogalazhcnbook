@@ -1,4 +1,4 @@
-# .latexmkrc — zhbook 中文书籍模板构建配置
+# .latexmkrc — boyogalazhcnbook 中文书籍模板构建配置
 #
 # 常用命令:
 #   latexmk           编译 (自动 xelatex/bibtex/makeindex, 自动决定编译遍数)

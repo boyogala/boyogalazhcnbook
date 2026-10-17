@@ -3,7 +3,7 @@
 %%
 
 %---------- 定义的新的Class ----------
-\ProvidesClass{zhbook}[2024/01/11 v2.4]
+\ProvidesClass{boyogalazhcnbook}[2026/10/16 v1.1]
 \NeedsTeXFormat{LaTeX2e}
 
 %---------- 定义的新的Options ----------
@@ -17,30 +17,30 @@
 
 %--- 自定义"键=值"类选项 (未匹配的选项原样透传给 ctexbook) ---
 %    mathfont=lmodern/xits/termes/stix2/pagella  备用数学字体 (取自 TeX Live 的字体);
-%        默认数学字体由 zhbooksetting.tex 配置 (项目自带字体), 会覆盖此选项
+%        默认数学字体由 boyogalazhcnbooksetting.tex 配置 (项目自带字体), 会覆盖此选项
 %    bindingoffset=1cm                           装订线宽度 (默认: 0pt, 不预留)
-\def\zhbook@mathfont{}          % 空 = 不改变默认数学字体
-\def\zhbook@bindingoffset{0pt}  % 装订线宽度
+\def\boyogalazhcnbook@mathfont{}          % 空 = 不改变默认数学字体
+\def\boyogalazhcnbook@bindingoffset{0pt}  % 装订线宽度
 \DeclareOption*{%
     % 在选项后追加哨兵"==", 按第一个"="拆分 (无"="的选项也能安全解析):
     % 匹配到自定义选项则记录, 其余选项原样透传给 ctexbook
-    \expandafter\zhbook@parsekv\CurrentOption==\@nil
+    \expandafter\boyogalazhcnbook@parsekv\CurrentOption==\@nil
 }
-% 拆分"键=值": #1=键, #2="值==" (末尾多两个哨兵"=", 再用 \zhbook@stripval 去掉)
-\def\zhbook@parsekv#1=#2\@nil{%
-    \def\zhbook@tempkey{#1}%
-    \zhbook@stripval#2\@nil
-    \ifdefstring{\zhbook@tempkey}{mathfont}{%
-        \let\zhbook@mathfont\zhbook@tempval
+% 拆分"键=值": #1=键, #2="值==" (末尾多两个哨兵"=", 再用 \boyogalazhcnbook@stripval 去掉)
+\def\boyogalazhcnbook@parsekv#1=#2\@nil{%
+    \def\boyogalazhcnbook@tempkey{#1}%
+    \boyogalazhcnbook@stripval#2\@nil
+    \ifdefstring{\boyogalazhcnbook@tempkey}{mathfont}{%
+        \let\boyogalazhcnbook@mathfont\boyogalazhcnbook@tempval
     }{%
-    \ifdefstring{\zhbook@tempkey}{bindingoffset}{%
-        \let\zhbook@bindingoffset\zhbook@tempval
+    \ifdefstring{\boyogalazhcnbook@tempkey}{bindingoffset}{%
+        \let\boyogalazhcnbook@bindingoffset\boyogalazhcnbook@tempval
     }{%
         \PassOptionsToClass{\CurrentOption}{ctexbook}% 其他选项透传
     }}%
 }
 % 去掉值末尾的哨兵"==" (无值选项的 #2 恰为"==", 去掉后为空)
-\def\zhbook@stripval#1==\@nil{\def\zhbook@tempval{#1}}
+\def\boyogalazhcnbook@stripval#1==\@nil{\def\boyogalazhcnbook@tempval{#1}}
 \ProcessOptions\relax
 
 %---------- 字体宏包选项 ----------
@@ -65,17 +65,17 @@
 
 %---------- 载入Class ----------
 % fontset=fandol: 固定使用 Fandol 字体集, 使各系统上的中文标点行为一致;
-% 字体文件的实际路径在 zhbooksetting.tex 中指向本仓库自带的 font/ 目录
+% 字体文件的实际路径在 boyogalazhcnbooksetting.tex 中指向本仓库自带的 font/ 目录
 \LoadClass[UTF8,a4paper,fontset=fandol]{ctexbook}
 \@ifclasslater{ctexbook}{2017/01/01}{}{%
-    \ClassError{zhbook}{ctex >= 2017/01/01 is required ...}{}%
+    \ClassError{boyogalazhcnbook}{ctex >= 2017/01/01 is required ...}{}%
 }
 
 %---------- 定义页边距 ----------
 \RequirePackage{geometry}
 \geometry{left=3.0cm,right=3.0cm,top=3.0cm,bottom=2.8cm}  % 上下左右边距
-\ifx\zhbook@bindingoffset\@empty\def\zhbook@bindingoffset{0pt}\fi  % 空值保护
-\geometry{bindingoffset=\zhbook@bindingoffset}  % 装订线: 双面打印时在页面内侧额外预留 (默认 0pt)
+\ifx\boyogalazhcnbook@bindingoffset\@empty\def\boyogalazhcnbook@bindingoffset{0pt}\fi  % 空值保护
+\geometry{bindingoffset=\boyogalazhcnbook@bindingoffset}  % 装订线: 双面打印时在页面内侧额外预留 (默认 0pt)
 %\geometry{centering,body={16cm,22cm}}                    % 备选: 固定版心尺寸
 %\geometry{left=2.5cm,right=2.5cm,top=2.8cm,bottom=2.6cm} % 备选: 较窄的边距
 \setlength{\headheight}{18pt}  % 页眉高度
@@ -87,29 +87,29 @@
 \RequirePackage{amsmath,amsthm}  % 数学公式与定理
 \RequirePackage{mathtools}       % amsmath 增强 (dcases、cases*、\coloneqq、\DeclarePairedDelimiter 等)
 % 校验 mathfont 取值: 未知值给出警告并回退为默认数学字体
-\ifdefstring{\zhbook@mathfont}{lmodern}{}{%
-\ifdefstring{\zhbook@mathfont}{xits}{}{%
-\ifdefstring{\zhbook@mathfont}{termes}{}{%
-\ifdefstring{\zhbook@mathfont}{stix2}{}{%
-\ifdefstring{\zhbook@mathfont}{pagella}{}{%
-    \ifx\zhbook@mathfont\@empty\else
-        \ClassWarningNoLine{zhbook}{未知的 mathfont 值: \zhbook@mathfont; 将使用默认数学字体. 可选: lmodern/xits/termes/stix2/pagella}%
-        \def\zhbook@mathfont{}% 回退为默认
+\ifdefstring{\boyogalazhcnbook@mathfont}{lmodern}{}{%
+\ifdefstring{\boyogalazhcnbook@mathfont}{xits}{}{%
+\ifdefstring{\boyogalazhcnbook@mathfont}{termes}{}{%
+\ifdefstring{\boyogalazhcnbook@mathfont}{stix2}{}{%
+\ifdefstring{\boyogalazhcnbook@mathfont}{pagella}{}{%
+    \ifx\boyogalazhcnbook@mathfont\@empty\else
+        \ClassWarningNoLine{boyogalazhcnbook}{未知的 mathfont 值: \boyogalazhcnbook@mathfont; 将使用默认数学字体. 可选: lmodern/xits/termes/stix2/pagella}%
+        \def\boyogalazhcnbook@mathfont{}% 回退为默认
     \fi
 }}}}}
-\ifx\zhbook@mathfont\@empty
-    %--- 默认: 仅载入基础符号宏包; 正式数学字体在 zhbooksetting.tex 中用 unicode-math 配置 (会覆盖) ---
+\ifx\boyogalazhcnbook@mathfont\@empty
+    %--- 默认: 仅载入基础符号宏包; 正式数学字体在 boyogalazhcnbooksetting.tex 中用 unicode-math 配置 (会覆盖) ---
     \RequirePackage{amssymb}   % AMS 数学符号 (花体字母 \mathscr 由 unicode-math 的数学字体提供)
 \else
     %--- unicode-math 模式: 使用 OpenType 数学字体 (XeLaTeX 下推荐的方式) ---
     % 各字体按 TeX Live 内的文件名载入, 确保不同系统上都能找到;
     % 其中仅 XITS 自带粗体数学字形 (BoldFont), 其余字体的粗体数学自动回退为常规字形.
     \RequirePackage{unicode-math}
-    \ifdefstring{\zhbook@mathfont}{lmodern}{\setmathfont{latinmodern-math.otf}}{%
-    \ifdefstring{\zhbook@mathfont}{xits}{\setmathfont{XITSMath-Regular.otf}[BoldFont=XITSMath-Bold.otf]}{%
-    \ifdefstring{\zhbook@mathfont}{termes}{\setmathfont{texgyretermes-math.otf}}{%
-    \ifdefstring{\zhbook@mathfont}{stix2}{\setmathfont{STIXTwoMath-Regular.otf}}{%
-    \ifdefstring{\zhbook@mathfont}{pagella}{\setmathfont{texgyrepagella-math.otf}}{%
+    \ifdefstring{\boyogalazhcnbook@mathfont}{lmodern}{\setmathfont{latinmodern-math.otf}}{%
+    \ifdefstring{\boyogalazhcnbook@mathfont}{xits}{\setmathfont{XITSMath-Regular.otf}[BoldFont=XITSMath-Bold.otf]}{%
+    \ifdefstring{\boyogalazhcnbook@mathfont}{termes}{\setmathfont{texgyretermes-math.otf}}{%
+    \ifdefstring{\boyogalazhcnbook@mathfont}{stix2}{\setmathfont{STIXTwoMath-Regular.otf}}{%
+    \ifdefstring{\boyogalazhcnbook@mathfont}{pagella}{\setmathfont{texgyrepagella-math.otf}}{%
     }}}}}%
 \fi
 \RequirePackage{graphicx}                % 插图
@@ -135,12 +135,12 @@
 \newcommand\bioinfo[2]{\gdef\@bioinfo{{#1}：#2}}  % 作者的其他信息(键：值)
 \newcommand\coverimage{\gdef\@coverimage}         % 封面图片 (可选)
 \newcommand\motto{\gdef\@motto}                   % 封面座右铭 (可选, 支持 \\ 换行)
-\providecommand\coverfont{\sffamily}              % 封面字体 (默认无衬线; 可在 zhbooksetting.tex 中改)
+\providecommand\coverfont{\sffamily}              % 封面字体 (默认无衬线; 可在 boyogalazhcnbooksetting.tex 中改)
 
 %---------- 空白页处理 ----------
 % 主要分隔处换页: print/openright 模式必要时补空白页 (沿用标准 \cleardoublepage, 空白页
 % 自动使用 empty 页样式, 无页眉页码), 其余模式仅换页
-\newcommand{\zhbook@nextpage}{%
+\newcommand{\boyogalazhcnbook@nextpage}{%
     \ifprint
         \cleardoublepage
     \else
@@ -175,21 +175,21 @@
 
 %---------- 设置正文前页码为小写罗马数字 ----------
 \renewcommand\frontmatter{%
-    \zhbook@nextpage  % print/openright 模式: 此处补空白页
+    \boyogalazhcnbook@nextpage  % print/openright 模式: 此处补空白页
     \@mainmatterfalse
     \pagenumbering{roman}%
 }
 
 %---------- 设置正文页码为阿拉伯数字 ----------
 \renewcommand\mainmatter{%
-    \zhbook@nextpage
+    \boyogalazhcnbook@nextpage
     \pagenumbering{arabic}%
     \@mainmattertrue
 }
 
 %---------- 设置后附部分 (不参与章节编号) ----------
 \renewcommand\backmatter{%
-    \zhbook@nextpage
+    \boyogalazhcnbook@nextpage
     \@mainmatterfalse
 }
 
@@ -361,11 +361,11 @@
 
 %---------- 数学定理设置 ----------
 % 定理样式: {上方间距}{下方间距}{正文格式}{正文缩进}{标题格式}{标题后标点}{标题与正文间距}{标题后内容}
-\newtheoremstyle{zhbook}
+\newtheoremstyle{boyogalazhcnbook}
 {0.5\topsep}{0.5\topsep}
 {\itshape}{}{\bfseries}
 {.}{5pt plus 1pt minus 1pt}{}
-\theoremstyle{zhbook}
+\theoremstyle{boyogalazhcnbook}
 % 定义各定理类环境, 均按章编号
 \newtheorem{definition}{定义}[chapter]
 \newtheorem{proposition}{命题}[chapter]
@@ -379,8 +379,8 @@
 \newtheorem{axiom}{公理}[chapter]
 \newtheorem{property}{性质}[chapter]
 \newtheorem{conjecture}{猜想}[chapter]
-% 证毕符号默认 □; zhbooksetting.tex 中已改为数学字体的 \mdlgwhtsquare
-% (如要换成实心 ∎, 建议统一在 zhbooksetting.tex 中改为 \mdlgblksquare)
+% 证毕符号默认 □; boyogalazhcnbooksetting.tex 中已改为数学字体的 \mdlgwhtsquare
+% (如要换成实心 ∎, 建议统一在 boyogalazhcnbooksetting.tex 中改为 \mdlgblksquare)
 \renewcommand{\proofname}{证明}  % 证明环境标题
 \renewenvironment{proof}[1][\proofname]{\par  % 重定义证明环境: 标题加粗, 结尾加证毕符号
     \pushQED{\qed}%
@@ -411,7 +411,7 @@
 
 %---------- 定义新的标题页面 (封面) ----------
 % 现代三栏式布局: 上层=书名/副标题, 中层=作者/封面图片, 下层=座右铭(设置后优先于日期版本), 页脚=附加信息
-\definecolor{zhbookgreen}{HTML}{0B8C2F}  % 封面点缀色: 品牌绿 (可自行修改)
+\definecolor{boyogalagreen}{HTML}{0B8C2F}  % 封面点缀色: 品牌绿 (可自行修改)
 \renewcommand{\maketitle}{
     \clearpage
     \phantomsection
@@ -427,7 +427,7 @@
         {\sffamily\coverfont\bfseries\fontsize{32pt}{42pt}\selectfont \@title \par}
         \ifx\@subtitle\undefined\else
             \vspace*{0.9\baselineskip}
-            {\sffamily\coverfont\fontsize{16pt}{21pt}\selectfont\color{zhbookgreen}%
+            {\sffamily\coverfont\fontsize{16pt}{21pt}\selectfont\color{boyogalagreen}%
              \@subtitle \par}
         \fi
 
@@ -450,18 +450,18 @@
         \ifx\@motto\undefined
             \ifx\@date\@empty
                 \ifx\@version\undefined\else
-                    {\color{zhbookgreen}\rule{1.2cm}{1.6pt}\par}
+                    {\color{boyogalagreen}\rule{1.2cm}{1.6pt}\par}
                     \vspace*{1\baselineskip}
                     {\sffamily\coverfont\small\color{black!60} 版本 \@version \par}
                 \fi
             \else
-                {\color{zhbookgreen}\rule{1.2cm}{1.6pt}\par}
+                {\color{boyogalagreen}\rule{1.2cm}{1.6pt}\par}
                 \vspace*{1\baselineskip}
                 {\sffamily\coverfont\small\color{black!60} \@date
                  \ifx\@version\undefined\else ~·~版本 \@version\fi \par}
             \fi
         \else
-            {\color{zhbookgreen}\rule{1.2cm}{1.6pt}\par}
+            {\color{boyogalagreen}\rule{1.2cm}{1.6pt}\par}
             \vspace*{1\baselineskip}
             {\kaishu\fontsize{13pt}{20pt}\selectfont \color{black!70} \@motto \par}
         \fi
@@ -472,7 +472,7 @@
 
         \vspace*{0.1\baselineskip}
     \end{titlepage}
-    \zhbook@nextpage  % print/openright 模式: 封面后补空白页
+    \boyogalazhcnbook@nextpage  % print/openright 模式: 封面后补空白页
 }
 
 %---------- 前言环境 (自动加入目录) ----------
@@ -484,7 +484,7 @@
     \chapter*{#1}
     \chaptermark{#1}
 }{
-    \zhbook@nextpage
+    \boyogalazhcnbook@nextpage
 }
 
 %---------- 定义新的目录页面 ----------
@@ -559,7 +559,7 @@
     \chapter*{主要符号表}
     \chaptermark{主要符号表}
 }{
-    \zhbook@nextpage
+    \boyogalazhcnbook@nextpage
 }
 
 %---------- 重新定义附录命令 ----------
@@ -583,4 +583,4 @@
     \oldbibliography{#1}
 }
 
-% End of file `zhbook.cls'.
+% End of file `boyogalazhcnbook.cls'.

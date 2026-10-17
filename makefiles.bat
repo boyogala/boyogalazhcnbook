@@ -1,6 +1,6 @@
 @echo off
 @rem ------------------------------------------------
-@rem  zhbook 编译脚本 (基于 latexmk)
+@rem  boyogalazhcnbook 编译脚本 (基于 latexmk)
 @rem
 @rem  用法:
 @rem    makefiles.bat            编译 main.tex
