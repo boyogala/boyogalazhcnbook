@@ -47,6 +47,16 @@
 % 必须在载入 ctexbook 之前设置: ctexbook 内部会经 xeCJK 载入 fontspec
 \PassOptionsToPackage{no-math}{fontspec}
 
+%---------- 静默 Fandol 字体的无害警告 ----------
+% xeCJK 默认对所有中文字体请求 OpenType 脚本 "CJK" (fontspec 将其映射为 hani 脚本,
+% 并按 XeTeX 枚举的字体脚本表核对); Fandol 字体经此枚举无匹配脚本, fontspec 遂给出
+% "does not contain requested Script" 警告, 并自动回退为默认脚本, 不影响排版与字形.
+% 这里按消息名静默 (仅此一条), 使编译日志保持干净. 如需恢复该提示, 将 none 改为 warning.
+\RequirePackage{expl3}
+\ExplSyntaxOn
+\msg_redirect_name:nnn {fontspec} {no-script} {none}
+\ExplSyntaxOff
+
 %---------- 载入Class ----------
 % fontset=fandol: 固定使用 Fandol 字体集, 使各系统上的中文标点行为一致;
 % 字体文件的实际路径在 zhbooksetting.tex 中指向本仓库自带的 font/ 目录
