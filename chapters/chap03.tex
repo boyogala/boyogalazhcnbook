@@ -76,4 +76,15 @@
 \end{array}\right].
 \end{equation}
 
-
+上一个矩阵用了 \verb|array| 环境, 也可以使用\verb|pmatrix| 环境.
+\begin{equation}\label{eq:matrix3}
+\boldsymbol{A}=\begin{pmatrix}
+\frac{2}{h^{2}}+q_{1} & \frac{1}{2h}-\frac{1}{h^{2}} &   &  &  \\[8pt]
+ -\frac{1}{2h}-\frac{1}{h^{2}} & \frac{2}{h^{2}}+q_{2} & \frac{1}{2h}-\frac{1}{h^{2}}  & &  \\[8pt]
+  &  &  &  &    \\
+  &  \ddots  & \ddots  &  \ddots  &  \\[8pt]
+  &  &  &  &    \\
+  &   & -\frac{1}{2h}-\frac{1}{h^{2}} & \frac{2}{h^{2}}+q_{N-2}& \frac{1}{2h}-\frac{1}{h^{2}} \\[8pt]
+  &  &  & -\frac{1}{2h}-\frac{1}{h^{2}} & \frac{2}{h^{2}}+q_{N-1}
+\end{pmatrix}.
+\end{equation}
