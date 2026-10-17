@@ -61,8 +61,20 @@
 % ===============================================================
 %  二、常用宏包
 % ===============================================================
-% 代码排版 (listings) 已由文类载入并配置样式 (行号/边框/配色), 可直接使用 lstlisting 环境
+% 说明: 模板所需宏包大都已由文类 zhbook.cls 载入, 无需在此重复:
+%   数学: amsmath、amsthm、mathtools、amssymb、mathrsfs (数学字体由第一节经 unicode-math 配置);
+%   图表: graphicx、caption、tabularx (含 L/C/R/P 列格式)、booktabs、longtable、multirow、makecell、float、multicol;
+%   算法: algorithm、algpseudocode; 代码: listings (样式已由文类配置, 可直接使用 lstlisting 环境).
+% 下面只列出需要在本文件中载入的宏包; 用到其它宏包时在此追加即可.
+
 \usepackage{subcaption}  % 子图排版 (caption 宏包的配套子图宏包)
+
+%----- 绘图与流程图 (tikz) -----
+% 数学书籍中的交换图、示意图、算法流程图等均可直接用 tikzpicture 环境绘制 (示例见第 2 章"算法环境"一节);
+% 已载入常用库: positioning (相对定位)、arrows.meta (箭头)、shapes.geometric (菱形等流程图节点)、calc (坐标计算)
+\usepackage{tikz}
+\usetikzlibrary{positioning,arrows.meta,shapes.geometric,calc}
+
 %\usepackage[notcite,notref]{showkeys}  % 调试用: 页边显示引用/标签键名
 
 %----- 取消链接颜色和方框 (hyperref 在导言末尾载入, 设置须放入 \AtEndPreamble) -----
@@ -75,7 +87,6 @@
 \bibliographystyle{gbt7714-2025-numeric}     % GB/T 7714-2025 顺序编码制
 %\bibliographystyle{gbt7714-2025-authoryear} % GB/T 7714-2025 著者-出版年制
 %\bibliographystyle{plain}  % 其他可选: abbrv, unsrt, siam
-%\bibliographystyle{thuthesis-numeric}  % 旧样式 GB/T 7714-2015 (兼容保留)
 
 %----- 参考文献引用格式 -----
 \usepackage[numbers,sort&compress]{natbib}   % 顺序编码制引用

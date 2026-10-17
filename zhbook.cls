@@ -47,14 +47,20 @@
 % 必须在载入 ctexbook 之前设置: ctexbook 内部会经 xeCJK 载入 fontspec
 \PassOptionsToPackage{no-math}{fontspec}
 
-%---------- 静默 Fandol 字体的无害警告 ----------
-% xeCJK 默认对所有中文字体请求 OpenType 脚本 "CJK" (fontspec 将其映射为 hani 脚本,
-% 并按 XeTeX 枚举的字体脚本表核对); Fandol 字体经此枚举无匹配脚本, fontspec 遂给出
-% "does not contain requested Script" 警告, 并自动回退为默认脚本, 不影响排版与字形.
-% 这里按消息名静默 (仅此一条), 使编译日志保持干净. 如需恢复该提示, 将 none 改为 warning.
+%---------- 静默无碍排版的信息性警告 ----------
+% 1) Fandol 字体: xeCJK 默认对所有中文字体请求 OpenType 脚本 "CJK" (fontspec 将其映射
+%    为 hani 脚本, 并按 XeTeX 枚举的字体脚本表核对); Fandol 字体经此枚举无匹配脚本,
+%    fontspec 遂给出 "does not contain requested Script" 警告, 并自动回退为默认脚本,
+%    不影响排版与字形.
+% 2) mathtools 与 unicode-math 并用: unicode-math 载入后会给出两条提示 — 冒号类命令
+%    (如 \coloneqq) 改用 unicode-math 版本, 上下花括号命令沿用 mathtools 版本 — 均为
+%    宏包官方设计中的正常行为, 不影响排版.
+% 以上警告按消息名静默, 使编译日志保持干净; 如需恢复提示, 将 none 改为 warning.
 \RequirePackage{expl3}
 \ExplSyntaxOn
 \msg_redirect_name:nnn {fontspec} {no-script} {none}
+\msg_redirect_name:nnn {unicode-math} {mathtools-overbracket} {none}
+\msg_redirect_name:nnn {unicode-math} {mathtools-colon} {none}
 \ExplSyntaxOff
 
 %---------- 载入Class ----------
@@ -79,6 +85,7 @@
 
 %---------- 常用宏包 ----------
 \RequirePackage{amsmath,amsthm}  % 数学公式与定理
+\RequirePackage{mathtools}       % amsmath 增强 (dcases、cases*、\coloneqq、\DeclarePairedDelimiter 等)
 % 校验 mathfont 取值: 未知值给出警告并回退为默认数学字体
 \ifdefstring{\zhbook@mathfont}{lmodern}{}{%
 \ifdefstring{\zhbook@mathfont}{xits}{}{%
@@ -91,9 +98,8 @@
     \fi
 }}}}}
 \ifx\zhbook@mathfont\@empty
-    %--- 默认: 仅载入基础符号宏包; 正式数学字体在 zhbooksetting.tex 中用 unicode-math 配置 (会覆盖下面两个宏包) ---
-    \RequirePackage{amssymb}   % AMS 数学符号
-    \RequirePackage{mathrsfs}  % 花体数学符号 \mathscr
+    %--- 默认: 仅载入基础符号宏包; 正式数学字体在 zhbooksetting.tex 中用 unicode-math 配置 (会覆盖) ---
+    \RequirePackage{amssymb}   % AMS 数学符号 (花体字母 \mathscr 由 unicode-math 的数学字体提供)
 \else
     %--- unicode-math 模式: 使用 OpenType 数学字体 (XeLaTeX 下推荐的方式) ---
     % 各字体按 TeX Live 内的文件名载入, 确保不同系统上都能找到;
@@ -114,9 +120,8 @@
 \RequirePackage{multirow}                % 合并行
 \RequirePackage{multicol}                % 多栏排版
 \RequirePackage{makecell}                % 单元格内换行
-\RequirePackage{color,xcolor}            % 颜色
+\RequirePackage{xcolor}                  % 颜色
 \RequirePackage{fancyhdr}                % 页眉页脚
-\RequirePackage{anyfontsize}             % 任意字号
 \RequirePackage{titletoc}                % 目录条目格式
 \RequirePackage{pdfpages}                % 插入外部 PDF
 
@@ -125,7 +130,6 @@
 \global\let\@author\@empty                        % 作者
 \global\let\@date\@empty                          % 日期
 \newcommand\subtitle{\gdef\@subtitle}             % 副标题
-%\newcommand\institute{\gdef\@institute}          % 机构(可选)
 \newcommand\version{\gdef\@version}               % 版本
 \newcommand\extrainfo{\gdef\@extrainfo}           % 封面底部附加信息
 \newcommand\bioinfo[2]{\gdef\@bioinfo{{#1}：#2}}  % 作者的其他信息(键：值)
@@ -134,19 +138,8 @@
 \providecommand\coverfont{\sffamily}              % 封面字体 (默认无衬线; 可在 zhbooksetting.tex 中改)
 
 %---------- 空白页处理 ----------
-% \cleardoublepage: 结束当前页; 双面排版时保证下一页是奇数页, 必要时插入一张空白页(无页眉页码)
-\renewcommand{\cleardoublepage}{%
-    \clearpage
-    \if@twoside
-        \ifodd\c@page\else
-            \thispagestyle{empty}%
-            \hbox{}\newpage
-            \if@twocolumn\hbox{}\newpage\fi
-        \fi
-    \fi
-}
-
-% 主要分隔处换页: print/openright 模式必要时补空白页, 其余模式仅换页
+% 主要分隔处换页: print/openright 模式必要时补空白页 (沿用标准 \cleardoublepage, 空白页
+% 自动使用 empty 页样式, 无页眉页码), 其余模式仅换页
 \newcommand{\zhbook@nextpage}{%
     \ifprint
         \cleardoublepage
@@ -201,7 +194,7 @@
 }
 
 %---------- 设置图片的路径 ----------
-\graphicspath{{./figure/}{./figures/}{./image/}{./images/}}  % 这些目录中的图片可直接写文件名引用
+\graphicspath{{./figures/}}  % 图片统一放在 figures/ 目录, 引用时可省略路径
 
 %---------- 设置章节目录的深度 ----------
 \setcounter{secnumdepth}{3}  % 章节编号到 subsubsection
@@ -223,7 +216,6 @@
         aftername = \quad,
         beforeskip = {6pt},
         afterskip = {24pt},
-        %pagestyle = main,
     }
 }
 %--- section (节标题: 黑体小3号, 左对齐) ---
@@ -265,8 +257,7 @@
 }
 
 %---------- 算法宏包及设置 ----------
-\RequirePackage{algorithm,algorithmicx}  % 算法浮动体环境
-\RequirePackage{algpseudocode}           % 伪代码排版
+\RequirePackage{algorithm,algpseudocode}  % 算法浮动体 + 伪代码排版 (algpseudocode 内含 algorithmicx 内核)
 \floatname{algorithm}{算法}              % 算法标题名称
 \algrenewcommand\algorithmicrequire{\textbf{输入:}}  % Require 显示为"输入"
 \algrenewcommand\algorithmicensure{\textbf{输出:}}   % Ensure 显示为"输出"
@@ -294,14 +285,10 @@
     %escapeinside = {(*@}{@*)},             % 备选: 代码中用 (*@...@*) 嵌入 LaTeX 命令
 }
 
-%------------- 设置附录 -----------
-%\renewcommand{\appendixname}{附录}
-
 %---------- 定义页眉页脚 (fancyhdr 宏包) ----------
 
 %---------- 设置页眉样式 ----------
 \newcommand{\headstyle}{
-    %\fancyhead[C]{\fangsong\zihao{5} \@title}                       % 备选: 页眉居中显示书名
     \fancyhead[RO,LE]{\fangsong\zihao{5} $\cdot$\:\thepage\:$\cdot$} % 奇数页右侧/偶数页左侧: 页码
     \fancyhead[LO,RE]{\fangsong\zihao{5} \nouppercase{\leftmark}}    % 奇数页左侧/偶数页右侧: 章标题
 }
@@ -309,8 +296,6 @@
 %---------- 设置页脚样式 ----------
 \newcommand{\footstyle}{
     \fancyfoot[C]{\zihao{5} \thepage}
-    %\fancyfoot[LE]{\zihao{5} \thepage}
-    %\fancyfoot[RO]{\zihao{5} \thepage}
 }
 
 %---------- 重定义plain样式 (章首页: 不含页眉, 底部居中显示页码) ----------
@@ -347,9 +332,6 @@
     \list{}{\listparindent=2\ccwd\itemindent\listparindent\rightmargin\leftmargin\parsep\z@\@plus\p@}%
     \item\relax
 }{\endlist}
-%\renewcommand{\baselinestretch}{1.35}
-%\topskip=15pt   % 书写区域顶部空白
-%\setlength{\baselineskip}{24pt}
 
 %---------- 浮动对象设置 ----------
 % 浮动对象的缺省值稍微宽松一点, 允许页面上放置更多的浮动体
@@ -361,8 +343,6 @@
 %---------- 设置图表格式 ----------
 \numberwithin{figure}{chapter}    % 图按章编号(如图 2.1)
 \numberwithin{equation}{chapter}  % 公式按章编号(如式 2.1)
-%\renewcommand{\thetable}{\thechapter.\arabic{table}}
-%\renewcommand{\thefigure}{\thechapter.\arabic{figure}}
 
 %--------- 定制图形和表格标题的样式 ----------
 \RequirePackage{caption}
@@ -372,8 +352,6 @@
 \setlength{\textfloatsep}{12pt plus 2pt minus 2pt}  % 页顶/页底浮动体与正文的距离
 \setlength{\floatsep}{10pt plus 2pt minus 2pt}      % 相邻浮动体之间的距离
 \setlength{\intextsep}{10pt plus 2pt minus 2pt}     % 文中浮动体与正文的距离
-%\setlength{\abovecaptionskip}{2pt plus 1pt minus 1pt}
-%\setlength{\belowcaptionskip}{3pt plus 1pt minus 2pt}
 
 %---------- 使用tabularx库并定义新的左右中格式 ----------
 \newcolumntype{L}{X}                                     % 宽度自适应, 左对齐
@@ -381,22 +359,12 @@
 \newcolumntype{R}{>{\raggedleft \arraybackslash}X}       % 宽度自适应, 右对齐
 \newcolumntype{P}[1]{>{\centering \arraybackslash}p{#1}} % 指定宽度且居中
 
-%---------- 设置三线表格式 ----------
-% \setlength{\heavyrulewidth}{1.5pt}
-% \setlength{\lightrulewidth}{0.5pt}
-% \setlength{\cmidrulewidth}{0.5pt}
-% \setlength{\aboverulesep}{0pt}
-% \setlength{\belowrulesep}{0pt}
-% \setlength{\abovetopsep}{0pt}
-% \setlength{\belowbottomsep}{0pt}
-
 %---------- 数学定理设置 ----------
 % 定理样式: {上方间距}{下方间距}{正文格式}{正文缩进}{标题格式}{标题后标点}{标题与正文间距}{标题后内容}
 \newtheoremstyle{zhbook}
 {0.5\topsep}{0.5\topsep}
 {\itshape}{}{\bfseries}
 {.}{5pt plus 1pt minus 1pt}{}
-%\theoremstyle{plain}
 \theoremstyle{zhbook}
 % 定义各定理类环境, 均按章编号
 \newtheorem{definition}{定义}[chapter]
@@ -433,12 +401,7 @@
     \setlength{\belowdisplayskip}{6pt plus 2pt minus 2pt}       % 长公式下方间距
     \setlength{\abovedisplayshortskip}{3pt plus 1pt minus 1pt}  % 短公式上方间距
     \setlength{\belowdisplayshortskip}{3pt plus 1pt minus 1pt}  % 短公式下方间距
-    %\setlength{\arraycolsep}{2pt}
 }
-
-%------- 公式编号带章节 ----------
-% 已在本文件"设置图表格式"一节统一设置 \numberwithin{equation}{chapter}
-%\renewcommand{\theequation}{\arabic{chapter}.\arabic{equation}}
 
 %---------- 定义列表项的样式 ----------
 \RequirePackage{enumitem}  % 列表间距控制
@@ -510,40 +473,6 @@
         \vspace*{0.1\baselineskip}
     \end{titlepage}
     \zhbook@nextpage  % print/openright 模式: 封面后补空白页
-}
-
-%---------- 定义中英文关键词 ----------
-%--- 中文关键词 (用法: \cnkeywords{关键词1；关键词2})
-\newcommand{\cnkeywords}[1]{%
-    \vspace*{0.8\baselineskip}\par
-    \noindent {\bfseries 关键词:~} #1}
-%--- 英文关键词
-\newcommand{\enkeywords}[1]{%
-    \vspace*{0.8\baselineskip}\par
-    \noindent {\bfseries Key Words:~} #1}
-
-%---------- 中文摘要环境 (自动加入目录) ----------
-\newenvironment{cnabstract}{
-    \clearpage
-    \pagestyle{main}
-    \phantomsection
-    \addcontentsline{toc}{chapter}{摘~~要}  % 添加目录条目
-    \chapter*{摘~~要}                      % 不编号的章标题
-    \chaptermark{摘~~要}                   % 页眉中显示的标题
-}{
-    \clearpage
-}
-
-%---------- 英文摘要环境 (自动加入目录) ----------
-\newenvironment{enabstract}{
-    \clearpage
-    \pagestyle{main}
-    \phantomsection
-    \addcontentsline{toc}{chapter}{Abstract}
-    \chapter*{Abstract}
-    \chaptermark{Abstract}
-}{
-    \clearpage
 }
 
 %---------- 前言环境 (自动加入目录) ----------

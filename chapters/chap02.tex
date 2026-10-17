@@ -28,6 +28,17 @@
 \end{itemize}
 
 
+\section{多栏排版}
+
+短条目并排展示时可采用双栏排版 (multicol 宏包, 已由文类载入):
+
+\begin{multicols}{2}
+多栏排版适合排列表式的短条目, 例如术语表、词汇表等. 本模板已载入 multicol 宏包, 直接使用 multicols 环境即可, 栏数写在参数中 (如 \verb|{2}| 表示双栏).
+
+栏内段落仍保持段首缩进、行距与中文标点规则; 需要指定分栏位置时, 可用 \verb|\columnbreak| 命令手动分栏.
+\end{multicols}
+
+
 \section{文献引用}
 
 参考文献可采用 BibTeX\index{BibTeX} 的方式生成 (文献信息写在文件 \texttt{reference.bib} 中). 默认样式为顺序编码制 \texttt{gbt7714-2025-numeric}, 对应的引用格式可选 \texttt{numbers} 或 \texttt{super}; 也可切换为著者-出版年制 \texttt{gbt7714-2025-authoryear}, 对应的引用格式为 \texttt{authoryear}. 参考文献著录符合国家标准《信息与文献 参考文献著录规则》GB/T 7714-2025. 书中引用和参考的文献必须列出: 参考文献序号按所引文献在书中出现的先后次序排列, 并在引用处加注文献序号和方括弧.
@@ -139,6 +150,7 @@ aligned 与 equation 环境套用, 公式间距自动调节, 如果有分式, �
 |\varphi(x, u, h)-\varphi(x, \bar{u}, h)| \leqslant L_{\varphi}|u-\bar{u}|.
 \end{equation}
 \end{theorem}
+% 自定义证明标题示例: 末尾的 \nopunct (由 amsthm 提供) 可去掉标题后自动添加的标点
 \begin{proof}[\normalfont\bfseries 证明~\nopunct]
 由定理 \ref{lmm:convergence} 和 \eqref{eq:alignedEq} 式可以推出以上结论.
 \end{proof}
@@ -180,7 +192,7 @@ aligned 与 equation 环境套用, 公式间距自动调节, 如果有分式, �
 \end{algorithm}
 
 
-如下是算法~\ref{alg:foo}, 算法宽度可以通过 minipage 宏包调节.
+如下是算法~\ref{alg:foo}, 算法宽度可以通过 minipage 环境调节.
 \begin{center}
 \vspace{-2ex}
 \begin{minipage}{.9\linewidth}
@@ -206,6 +218,32 @@ aligned 与 equation 环境套用, 公式间距自动调节, 如果有分式, �
 \end{algorithm}
 \end{minipage}
 \end{center}
+
+算法流程图可以直接用 tikz 绘制 (tikz 及常用库已由 zhbooksetting.tex 载入), 如图~\ref{fig:flowchart}.
+
+\begin{figure}[htp!]
+  \centering
+  \begin{tikzpicture}[
+      node distance = 6mm and 12mm,
+      every node/.style = {draw, rounded corners=2pt, align=center, font=\small},
+      term/.style = {ellipse},
+      decision/.style = {diamond, aspect=2.6}]
+    \node[term] (start) {开始};
+    \node[below=of start] (input) {输入 $a$, $b$};
+    \node[decision, below=of input] (check) {$b=0$?};
+    \node[below=of check] (update) {更新: $a\gets b$, $b\gets a\bmod b$};
+    \node[right=of check] (output) {输出 $a$};
+    \node[term, below=of output] (end) {结束};
+    \draw[-Stealth] (start) -- (input);
+    \draw[-Stealth] (input) -- (check);
+    \draw[-Stealth] (check) -- node[left, draw=none] {否} (update);
+    \draw[-Stealth] (update.west) -- ++(-1.0,0) |- (check.west);
+    \draw[-Stealth] (check.east) -- node[above, draw=none] {是} (output);
+    \draw[-Stealth] (output) -- (end);
+  \end{tikzpicture}
+  \caption{算法流程图示例 (欧几里得算法)}
+  \label{fig:flowchart}
+\end{figure}
 
 
 \section{代码排版}

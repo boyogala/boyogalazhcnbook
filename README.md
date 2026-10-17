@@ -21,8 +21,8 @@
 ## 特性
 
 - 书籍结构齐全：封面、前言、目录、插图清单、表格清单、主要符号表、章节、附录、参考文献、索引、后记；
-- 数学环境丰富：定理、引理、定义、例、推论、注、练习、假设、公理、性质、猜想等 12 种，附证明环境；
-- 常用排版：算法（algorithm + algorithmic）、代码（listings，中文注释可正常排版）、子图与并排图（subcaption、minipage）、三线表（booktabs）、索引（imakeidx）；
+- 数学环境丰富：定理、引理、定义、例、推论、注、练习、假设、公理、性质、猜想等 12 种，附证明环境；数学工具齐全（amsmath、amsthm、mathtools、unicode-math）；
+- 常用排版：算法与伪代码（algorithm、algpseudocode）、代码（listings，中文注释可正常排版）、子图与并排图（subcaption、minipage）、绘图与流程图（tikz）、多栏排版（multicol）、三线表（booktabs）、索引（imakeidx）；
 - 参考文献符合国家标准 GB/T 7714—2025，顺序编码制与著者-出版年制均可（BibTeX，样式文件随附）；
 - 中文排版细节：段首缩进 2 字（含列表项与引文内段落）、段间距与行距、章首页页码、页眉等；
 - 设置分离：版式集中于 `zhbook.cls`，字体、宏包、参考文献等全局设置集中于 `zhbooksetting.tex`，便于按需调整；
@@ -154,7 +154,7 @@ reference.bib                 参考文献库
 gbt7714-2025-numeric.bst      GB/T 7714—2025 顺序编码制样式
 gbt7714-2025-authoryear.bst   GB/T 7714—2025 著者-出版年制样式
 font/                         模板所用字体 (Fandol、STIX Two 等)
-figures/                      示例插图 (EPS)
+figures/                      示例插图 (PDF)
 docs/images/                  README 预览图
 makefiles.sh / makefiles.bat  编译/清理脚本
 .latexmkrc                    latexmk 配置
