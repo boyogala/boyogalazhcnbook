@@ -242,22 +242,12 @@ whatwedid.md                  项目处理与交接说明
 <td><img src="docs/images/toc.png" width="100%"></td>
 </tr>
 <tr>
-<td align="center">目录</td>
-<td align="center">数学公式与定理</td>
-</tr>
-<tr>
 <td><img src="docs/images/math.png" width="100%"></td>
 <td><img src="docs/images/listings.png" width="100%"></td>
 </tr>
 <tr>
 <td><img src="docs/images/figure.png" width="100%"></td>
-</tr>
-<tr>
 <td><img src="docs/images/bibliography.png" width="100%"></td>
-</tr>
-<tr>
-<td align="center">参考文献 (GB/T 7714—2025)</td>
-<td></td>
 </tr>
 </table>
 
