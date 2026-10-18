@@ -1,8 +1,8 @@
 # boyogalazhcnbook
 
-**中文书籍 LaTeX 模板**（基于 ctexbook 文类，使用 XeLaTeX 编译）
+**中文书籍 LaTeX 模板**（基于 ctexbook 文类，使用 XeLaTeX 编译），欢迎扫码关注作者的微信公众号：
 
-<p align="center"><img src="docs/images/cover.png" width="42%"></p>
+<p align="center"><img src="docs/images/qr-boyogala.png" width="42%"></p>
 
 本项目是一个开箱即用的中文书籍 LaTeX 模板：面向正式出版物的完整结构（封面、前言、目录、插图/表格清单、主要符号表、章节、附录、参考文献、索引、后记），自带全套字体与符合 GB/T 7714—2025 的参考文献样式，获取后无需安装任何字体、无需联网即可用 XeLaTeX 直接编译成书；示例书本身即使用教程。
 
@@ -236,26 +236,28 @@ whatwedid.md                  项目处理与交接说明
 
 ## 效果预览
 
+<p align="center"><img src="docs/images/cover.png" width="42%"></p>
+
 <table>
 <tr>
+<td><img src="docs/images/cover.png" width="100%"></td>
 <td><img src="docs/images/toc.png" width="100%"></td>
-<td><img src="docs/images/math.png" width="100%"></td>
 </tr>
 <tr>
 <td align="center">目录</td>
 <td align="center">数学公式与定理</td>
 </tr>
 <tr>
+<td><img src="docs/images/math.png" width="100%"></td>
 <td><img src="docs/images/listings.png" width="100%"></td>
-<td><img src="docs/images/figure.png" width="100%"></td>
 </tr>
 <tr>
+<td><img src="docs/images/figure.png" width="100%"></td>
 <td align="center">代码排版 (listings)</td>
-<td align="center">图片与六子图并排</td>
 </tr>
 <tr>
 <td><img src="docs/images/bibliography.png" width="100%"></td>
-<td></td>
+<td align="center">图片与六子图并排</td>
 </tr>
 <tr>
 <td align="center">参考文献 (GB/T 7714—2025)</td>
