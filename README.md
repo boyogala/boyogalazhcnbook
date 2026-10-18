@@ -236,8 +236,6 @@ whatwedid.md                  项目处理与交接说明
 
 ## 效果预览
 
-<p align="center"><img src="docs/images/cover.png" width="42%"></p>
-
 <table>
 <tr>
 <td><img src="docs/images/cover.png" width="100%"></td>
