@@ -2,11 +2,9 @@
 
 **中文书籍 LaTeX 模板**（基于 ctexbook 文类，使用 XeLaTeX 编译）.
 
-本项目的作者有同名公众号，欢迎关注支持。
-
 ## 微信公众号：博優旮旯-BOYOGALA
 
-欢迎扫码关注作者的微信公众号：
+本项目的作者有同名公众号，欢迎扫码关注作者的微信公众号：
 
 <p align="center"><img src="docs/images/qr-boyogala.png" width="42%"></p>
 
